@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\TypeEvent;
-use App\Http\Resources\TypeEventResource;
+use App\Http\Resources\UserResource;
 
-class TypeEventController extends Controller
+class UserController extends Controller
 {
-    //
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $types = TypeEvent::all();
-        return $types;
+        $users = User::all();
+        return $users;
     }
 
     /**
@@ -39,13 +38,14 @@ class TypeEventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($type_id)
+    public function show($user_id)
     {
-        $type = TypeEvent::find($type_id);
-        if(is_null($type)){
+        $user = User::find($user_id);
+        if(is_null($user)){
                   return response()->json('data not found',404);
-        }
-        return response()->json($type);
+                }
+        return response()->json($user);
+        
     }
 
     /**
