@@ -14,7 +14,7 @@ class Event extends Model
         'name'
     ];
 
-    public function typeEvent()
+    public function type()
     {
         return $this->belongsTo(TypeEvent::class);
     }

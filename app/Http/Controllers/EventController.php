@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
 use App\Models\Event;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Validator;
 class EventController extends Controller
 {
@@ -39,24 +42,28 @@ class EventController extends Controller
         $validator = Validator::make($request->all(),[
             'name'=> 'required|string|max:255',
             'amount'=>'required',
-            'datePaid'=>'required',
-            'user_id'=>'required',
+            //'datePaid'=>'unrequired',
             'type_id'=>'required'
         ]);
         
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+//         if (Auth::check())
+// {
+//     // The user is logged in...
+//     return response()->json(['Ulogovan korisnik']);
+// }
 
         $event=Event::create([
             'name'=> $request->name,
             'amount'=> $request->amount,
-            'datePaid'=>convert_to_sql_date_format($request->datePaid),
-            'user_id'=> $request->user_id,
+            //'datePaid'=>'02.12.2023.',
+            'user_id'=>$request->user()->id,
             'type_id'=> $request->type_id
         ]);
 
-        return response()->json(['Event is created successfully.',new EventResource($event)    ]);
+        return response()->json(['Event is created successfully.',new EventResource($event)]);
     }
 
     /**
@@ -82,25 +89,40 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Event $event)
     {
         //
-        $event=Event::find($id);
-        $event->name=$request->input('name');
-        $event->amount=$request->input('amount');
-        $event->datePaid=$request->input('datePaid');
-        $event->user_id=$request->input('user_id'); 
-        $event->type_id=$request->input('type_id');
-        $event->update;
+        $validator = Validator::make($request->all(),[
+            'name'=> 'required|string|max:255',
+            'amount'=>'required',
+            ///'datePaid'=>'unrequired',
+            'type_id'=>'required'
+        ]);
+        
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
 
-        return redirect('employe')->with('status','Event data Updates Successfully');
+        
+        $event->name=$request->name;
+        $event->amount=$request->amount;
+        //$event->datePaid=$request->datePaid;
+        $event->type_id=$request->type_id;
+        $event->save();
+
+        return response()->json(['Event is updated successfully.',new EventResource($event)]);
+
+       // return redirect('employe')->with('status','Event data Updates Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Event $event)
     {
         //
+        $event->delete();
+        return response()->json(['Event is deleted successfully.']);
+
     }
 }

@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-            //
-            $table->date('datePaid');
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->index();
+            //$table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -22,9 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-            //
-            $table->dropColumn('datePaid');
-        });
+        Schema::dropIfExists('password_resets');
     }
 };

@@ -17,10 +17,12 @@ class EventResource extends JsonResource
        return [
 
        'name' => $this->resource->name,
-       'datePaid'=> $this->resource->datePaid,
+       //
+       //'datePaid'=> $this->resource->datePaid,
+       
        'amount'=>$this->resource->amount,
        'user'=> new UserResource($this->resource->user),
-       'type'=>new TypeEventResource($this->resource->typeEvent)
+       'type'=>new TypeEventResource($this->resource->type)
 
        ];
     }

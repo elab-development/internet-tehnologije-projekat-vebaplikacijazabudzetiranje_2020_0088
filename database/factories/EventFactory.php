@@ -21,7 +21,7 @@ class EventFactory extends Factory
     {
         return [
                         'name'=>$this->faker->name(),
-                        'datePaid'=> now(),
+                        //'datePaid'=> now(),
                         'amount'=>$this->faker->numberBetween($min=1, $max=100000000),
                         'user_id'=>User::factory(),
                         'type_id'=>TypeEvent::factory()
