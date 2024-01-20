@@ -1,17 +1,13 @@
 <?php
 
+use App\Http\Controllers\EventParticipantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TypeEventController;
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\EventParticipantController;
-use App\Models\User;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,94 +24,32 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::get('events',[EventController::class,'index']);
-//Route::get('events/{id}',[EventController::class,'show']);
-//Route::post('/events',[EventController::class,'store']);
-//Route::put('/events',[EventController::class,'store']);
-//Route::resource('events', EventController::class);
-//Route::get('/users/{id}',[UserController::class,'show']);
-
-Route::get('/users',[UserController::class,'index']);
-
-Route::get('/event-paginate',[EventController::class,'paginateEvents']);
-Route::resource('event-participants', EventParticipantController::class);
-Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
-
-Route::get('/type_events/{id}',[TypeEventController::class,'index']);
-Route::get('/random-user',[EventController::class,'randomUser']);
-Route::get('/filter-events',[EventController::class,'filterEvents']);
-
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 
-Route::resource('events', EventController::class)->only(['index','show']);
+Route::group(['middleware'=>['auth:sanctum']], function(Request $request){
 
-Route::group(['middleware'=>['auth:sanctum']],
-            function(){
-                Route::get('/profile',function(Request $request){
+    $user = $request->user();
 
-                return auth()->user();
-
-    });
-    Route::resource('events', EventController::class)->only(['update','store','destroy']);
+    Route::resource('event-participants', EventParticipantController::class);
+    Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
+    Route::get('/random-user',[EventController::class,'randomUser']);
+    Route::get('/filter-events',[EventController::class,'filterEvents']);
+    Route::get('/type_events/{id}',[TypeEventController::class,'index']);
     Route::post('/logout',[AuthController::class,'logout']);
+    //Route::resource('events', EventController::class)->only(['update','store','destroy']);
+    
+    if ($user->role == 'admin') {
+        Route::resource('events', EventController::class)->only(['update','store','destroy']);
+        Route::get('/users',[UserController::class,'index']);
+        Route::get('/event-paginate',[EventController::class,'paginateEvents']);
+        Route::resource('events', EventController::class)->only(['index','show']);
+    }
+
+    Route::get('/profile',function(Request $request){
+        return auth()->user();
+    });
+    
+    
    }
 );
-Route::post('/forgot',[AuthController::class,'forgot']);
-Route::post('/reset',[AuthController::class,'reset']);
-
-
-// Route::group(['middleware'=>['auth:sanctum']],
-//             function(){
-//                 Route::get('/profile',function(Request $request){
-//                 return auth()->user();});
-    
-    
-// }
-// );
-//Route::post('forgot_password',[ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-
-//Route::post('reset_password',[ResetPasswordController::class, 'reset'])->name('password.reset');
-
-
-
-
- 
-
-
-
-
-// Route::post('/reset-password', function (Request $request) {
-//     $request->validate([
-//         'token' => 'required',
-//         'email' => 'required|email',
-//         'password' => 'required|min:8|confirmed',
-//     ]);
- 
-//     $status = Password::reset(
-//         $request->only('email', 'password', 'password_confirmation', 'token'),
-//         function (User $user, string $password) {
-//             $user->forceFill([
-//                 'password' => Hash::make($password)
-//             ])->setRememberToken(Str::random(60));
- 
-//             $user->save();
- 
-//             event(new PasswordReset($user));
-//         }
-//     );
- 
-//     return $status === Password::PASSWORD_RESET
-//                 ? redirect()->route('login')->with('status', __($status))
-//                 : back()->withErrors(['email' => [__($status)]]);
-// })->middleware('guest')->name('password.update');
-
- 
-
-
-
-
-
-
-
-
