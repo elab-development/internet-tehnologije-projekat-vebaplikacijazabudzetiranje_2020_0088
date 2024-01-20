@@ -15,7 +15,10 @@ class UserController extends Controller
     {
         //
         $users = User::all();
-        return $users;
+        return response()->json([
+            'data' => UserResource::collection($users),
+            'message' => 'Uspesno su vraceni svi useri',
+        ]);
     }
 
     /**

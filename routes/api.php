@@ -6,13 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TypeEventController;
 use App\Http\Controllers\API\AuthController;
-//use App\Http\Controllers\API\ForgotPasswordController;
-//use App\Http\Controllers\API\ResetPasswordController;
-
-
-
+use App\Http\Controllers\EventParticipantController;
 use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -41,7 +37,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/users',[UserController::class,'index']);
 
-
+Route::resource('event-participants', EventParticipantController::class);
 Route::get('/type_events/{id}',[TypeEventController::class,'index']);
 
 Route::post('/register',[AuthController::class,'register']);
