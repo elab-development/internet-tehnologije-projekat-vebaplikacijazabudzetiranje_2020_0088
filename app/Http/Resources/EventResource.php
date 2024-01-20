@@ -22,7 +22,9 @@ class EventResource extends JsonResource
        
        'amount'=>$this->resource->amount,
        'user'=> new UserResource($this->resource->user),
-       'type'=>new TypeEventResource($this->resource->type)
+       'type'=>new TypeEventResource($this->resource->type),
+       'eventDate' => $this->resource->eventDate,
+
 
        ];
     }

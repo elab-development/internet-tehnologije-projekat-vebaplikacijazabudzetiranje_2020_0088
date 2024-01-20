@@ -69,6 +69,7 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(Event $event)
     {
         // $event = Event::find($event_id);
@@ -124,5 +125,13 @@ class EventController extends Controller
         $event->delete();
         return response()->json(['Event is deleted successfully.']);
 
+    }
+    public function getEventsByType($type_id)
+    {
+        $events = Event::where('type_id',$type_id)->get();
+        return response()->json([
+            'data' => EventResource::collection($events),
+            'message' => 'Successfully returned all events by type',
+        ]);
     }
 }

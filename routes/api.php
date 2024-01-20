@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/users',[UserController::class,'index']);
 
 Route::resource('event-participants', EventParticipantController::class);
+Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
+
 Route::get('/type_events/{id}',[TypeEventController::class,'index']);
 
 Route::post('/register',[AuthController::class,'register']);
@@ -58,6 +60,8 @@ Route::group(['middleware'=>['auth:sanctum']],
 );
 Route::post('/forgot',[AuthController::class,'forgot']);
 Route::post('/reset',[AuthController::class,'reset']);
+
+
 // Route::group(['middleware'=>['auth:sanctum']],
 //             function(){
 //                 Route::get('/profile',function(Request $request){
