@@ -143,4 +143,32 @@ class EventController extends Controller
             'message' => 'Successfully returned all events',
         ]);
     }
+    public function filterEvents(Request $request)
+    {
+        $dateFrom = $request->dateFrom;
+        $dateTo = $request->dateTo;
+
+        $events = Event::where('eventDate', '>=', $dateFrom)
+            ->where('eventDate', '<=', $dateTo)
+            ->get();
+        return response()->json([
+            'data' => EventResource::collection($events),
+            'message' => 'Successfully returned all events',
+        ]);
+    }
+
+    public function randomUser()
+    {
+        $apiUrl = 'https://randomuser.me/api/';
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('GET', $apiUrl);
+
+        return response()->json([
+            'data' => json_decode($response->getBody()),
+            'message' => 'Successfully returned random user',
+        ]);
+
+    }
 }

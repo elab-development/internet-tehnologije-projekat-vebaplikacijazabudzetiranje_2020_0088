@@ -42,6 +42,8 @@ Route::resource('event-participants', EventParticipantController::class);
 Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
 
 Route::get('/type_events/{id}',[TypeEventController::class,'index']);
+Route::get('/random-user',[EventController::class,'randomUser']);
+Route::get('/filter-events',[EventController::class,'filterEvents']);
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
