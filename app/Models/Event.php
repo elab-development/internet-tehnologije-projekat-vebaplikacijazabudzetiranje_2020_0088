@@ -11,7 +11,9 @@ class Event extends Model
 
     protected $fillable=[
         'amount',
-        'name'
+        'name',
+        'user_id',
+        'type_id'
     ];
 
     public function type()

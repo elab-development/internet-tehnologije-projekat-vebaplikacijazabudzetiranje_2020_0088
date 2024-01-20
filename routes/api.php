@@ -33,13 +33,13 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
     Route::get('/random-user',[EventController::class,'randomUser']);
     Route::get('/filter-events',[EventController::class,'filterEvents']);
-    Route::get('/type_events/{id}',[TypeEventController::class,'index']);
+    Route::get('/type_events',[TypeEventController::class,'index']);
     Route::post('/logout',[AuthController::class,'logout']);
-    //Route::resource('events', EventController::class)->only(['update','store','destroy']);
+    
 
-        Route::resource('events', EventController::class);
-        Route::get('/users',[UserController::class,'index']);
-        Route::get('/event-paginate',[EventController::class,'paginateEvents']);
+    Route::resource('events', EventController::class);
+    Route::get('/users',[UserController::class,'index']);
+    Route::get('/event-paginate',[EventController::class,'paginateEvents']);
 
 
     Route::get('/profile',function(Request $request){

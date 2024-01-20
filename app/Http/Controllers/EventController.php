@@ -27,7 +27,7 @@ class EventController extends Controller
             ]);
         }
         $events = Event::all();
-        //return EventResource::collection($events);
+        
         return new EventCollection($events);
     }
 
@@ -48,32 +48,22 @@ class EventController extends Controller
         //
         $user = $request->user();
         
-        // if($user->role != 'admin'){
-        //     return response()->json([
-        //         'message' => 'Nemate pristup ovoj ruti',
-        //     ]);
-        // }
         $validator = Validator::make($request->all(),[
             'name'=> 'required|string|max:255',
             'amount'=>'required',
-            //'datePaid'=>'unrequired',
+            
             'type_id'=>'required'
         ]);
         
         if($validator->fails()){
             return response()->json($validator->errors());
         }
-//         if (Auth::check())
-// {
-//     // The user is logged in...
-//     return response()->json(['Ulogovan korisnik']);
-// }
+
 
         $event=Event::create([
             'name'=> $request->name,
             'amount'=> $request->amount,
-            //'datePaid'=>'02.12.2023.',
-            'user_id'=>$request->user()->id,
+            'user_id'=>$user->id,
             'type_id'=> $request->type_id
         ]);
 
@@ -86,10 +76,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        // $event = Event::find($event_id);
-        // if(is_null($event))
-        //           return response()->json('data not found',404);
-        // return response()->json($event);
+        
         return new EventResource($event);
     }
 
@@ -117,7 +104,6 @@ class EventController extends Controller
         $validator = Validator::make($request->all(),[
             'name'=> 'required|string|max:255',
             'amount'=>'required',
-            ///'datePaid'=>'unrequired',
             'type_id'=>'required'
         ]);
         
@@ -128,13 +114,10 @@ class EventController extends Controller
         
         $event->name=$request->name;
         $event->amount=$request->amount;
-        //$event->datePaid=$request->datePaid;
         $event->type_id=$request->type_id;
         $event->save();
 
         return response()->json(['Event is updated successfully.',new EventResource($event)]);
-
-       // return redirect('employe')->with('status','Event data Updates Successfully');
     }
 
     /**
