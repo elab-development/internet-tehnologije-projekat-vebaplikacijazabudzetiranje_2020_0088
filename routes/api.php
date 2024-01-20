@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/users',[UserController::class,'index']);
 
+Route::get('/event-paginate',[EventController::class,'paginateEvents']);
 Route::resource('event-participants', EventParticipantController::class);
 Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
 

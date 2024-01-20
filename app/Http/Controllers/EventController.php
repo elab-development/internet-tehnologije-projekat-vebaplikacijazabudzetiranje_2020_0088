@@ -134,4 +134,13 @@ class EventController extends Controller
             'message' => 'Successfully returned all events by type',
         ]);
     }
+
+    public function paginateEvents(Request $request)
+    {
+        $events = Event::paginate($request->per_page);
+        return response()->json([
+            'data' => EventResource::collection($events),
+            'message' => 'Successfully returned all events',
+        ]);
+    }
 }
