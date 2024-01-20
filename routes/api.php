@@ -27,9 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 
-Route::group(['middleware'=>['auth:sanctum']], function(Request $request){
-
-    $user = $request->user();
+Route::group(['middleware'=>['auth:sanctum']], function(){
 
     Route::resource('event-participants', EventParticipantController::class);
     Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
@@ -38,18 +36,16 @@ Route::group(['middleware'=>['auth:sanctum']], function(Request $request){
     Route::get('/type_events/{id}',[TypeEventController::class,'index']);
     Route::post('/logout',[AuthController::class,'logout']);
     //Route::resource('events', EventController::class)->only(['update','store','destroy']);
-    
-    if ($user->role == 'admin') {
-        Route::resource('events', EventController::class)->only(['update','store','destroy']);
+
+        Route::resource('events', EventController::class);
         Route::get('/users',[UserController::class,'index']);
         Route::get('/event-paginate',[EventController::class,'paginateEvents']);
-        Route::resource('events', EventController::class)->only(['index','show']);
-    }
+
 
     Route::get('/profile',function(Request $request){
         return auth()->user();
     });
-    
-    
-   }
+
+
+}
 );

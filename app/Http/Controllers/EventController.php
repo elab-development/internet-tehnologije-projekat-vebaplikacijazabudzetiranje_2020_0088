@@ -16,9 +16,16 @@ class EventController extends Controller
      /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $user = $request->user();
+        
+        if($user->role != 'admin'){
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
         $events = Event::all();
         //return EventResource::collection($events);
         return new EventCollection($events);
@@ -39,6 +46,13 @@ class EventController extends Controller
     public function store(Request $request)
     {
         //
+        $user = $request->user();
+        
+        // if($user->role != 'admin'){
+        //     return response()->json([
+        //         'message' => 'Nemate pristup ovoj ruti',
+        //     ]);
+        // }
         $validator = Validator::make($request->all(),[
             'name'=> 'required|string|max:255',
             'amount'=>'required',
@@ -93,6 +107,13 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         //
+        $user = $request->user();
+        
+        if($user->role != 'admin'){
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
         $validator = Validator::make($request->all(),[
             'name'=> 'required|string|max:255',
             'amount'=>'required',
@@ -119,13 +140,22 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function destroy(Request $request, Event $event)
     {
         //
+        $user = $request->user();
+        
+        if($user->role != 'admin'){
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
         $event->delete();
         return response()->json(['Event is deleted successfully.']);
 
     }
+
+
     public function getEventsByType($type_id)
     {
         $events = Event::where('type_id',$type_id)->get();
@@ -137,6 +167,13 @@ class EventController extends Controller
 
     public function paginateEvents(Request $request)
     {
+        $user = $request->user();
+        
+        if($user->role != 'admin'){
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
         $events = Event::paginate($request->per_page);
         return response()->json([
             'data' => EventResource::collection($events),

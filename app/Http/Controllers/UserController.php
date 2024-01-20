@@ -11,9 +11,15 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+        
+        if($user->role != 'admin'){
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
         $users = User::all();
         return response()->json([
             'data' => UserResource::collection($users),
