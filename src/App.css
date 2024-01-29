@@ -1,5 +1,10 @@
 .App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
   text-align: center;
+  flex-direction: column;
+  font-family: "Nunito", sans-serif;
 }
 
 .App-logo {
@@ -101,7 +106,18 @@
   padding-left: 8px;
 }
 
-html,
+.openModalBtn {
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  background-color: cornflowerblue;
+  color: #f8f6f6;
+  cursor: pointer;
+  text-align: center;
+
+  margin: 100px 900px;
+}
 body {
   padding: 0;
   margin: 0;

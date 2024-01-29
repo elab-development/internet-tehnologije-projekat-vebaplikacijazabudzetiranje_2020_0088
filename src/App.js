@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import NavBar from "./components/NavBar";
 import { Navbar } from "react-bootstrap";
 import Register from "./components/Register";
+import Contact from "./pages/Contact";
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -18,10 +19,11 @@ function App(props) {
   return (
     <div className="App">
       <h1>Budget app</h1>
-      <NavBar />
+      <NavBar username={"marta"} />
 
       <BrowserRouter>
         <Routes>
+          <Route path="/contact" element={<Contact />} />
           <Route
             path="/"
             element={

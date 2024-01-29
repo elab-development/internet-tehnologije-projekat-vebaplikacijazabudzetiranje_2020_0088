@@ -1,7 +1,9 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-function NavBar() {
+import NavDropdown from "react-bootstrap/NavDropdown";
+import { useNavigate } from "react-router-dom";
+function NavBar({ username }) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -11,6 +13,15 @@ function NavBar() {
           <Nav className="me-auto">
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/about">About</Nav.Link>
+            <NavDropdown title={username} id="basic-nav-dropdown">
+              <NavDropdown.Item href="">Your account</NavDropdown.Item>
+              <NavDropdown.Item href="/contact">
+                Contact support
+              </NavDropdown.Item>
+              {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item> */}
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">Log out</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

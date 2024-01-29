@@ -1,21 +1,22 @@
-// import OneEvent from "src/components/OneEvent";
-// import "./App.css";
-
+import Modal from "../components/Modal";
+import "../App.css";
 import React, { useState } from "react";
 const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const onButtonClick = () => {};
+  const [modalOpen, setModalOpen] = useState(false);
   return (
-    <div>
-      {/* <OneEvent /> */}
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          onClick={onButtonClick}
-          value={"Dodaj dogadjaj"}
-        />
-      </div>
+    <div className="App">
+      <h1>Hey</h1>
+      <br />
+      <button
+        className="openModalBtn"
+        onClick={() => {
+          setModalOpen(true);
+        }}
+      >
+        Add event
+      </button>
+
+      {modalOpen && <Modal setOpenModal={setModalOpen} />}
     </div>
   );
 };
