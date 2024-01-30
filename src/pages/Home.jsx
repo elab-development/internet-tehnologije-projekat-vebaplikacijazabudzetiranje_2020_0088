@@ -39,46 +39,46 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>Hey</h1>
+    <div className="font">
+      <br />
+      <br />
       <Row>
-        <Col>
-          <Table className="table" striped>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {events.map((event) => {
-                return (
-                  <tr>
-                    <td>{event.name}</td>
-                    <td>{event.email}</td>
-                    <td>{event.amount}</td>
-                    <td>{event.type}</td>
-                    <td>{event.date}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        </Col>
-        <Col>
-          <button
-            className="openModalBtn"
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            Add event
-          </button>
-        </Col>
+        <Table className={"table"} striped>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Participant</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {events.map((event) => {
+              return (
+                <tr>
+                  <td>{event.name}</td>
+                  <td>{event.email}</td>
+                  <td>{event.amount}</td>
+                  <td>{event.type}</td>
+                  <td>{event.date}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
       </Row>
+      <Row>
+        <button
+          className="openModalBtn"
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
+          Add event
+        </button>
+      </Row>
+
       <br />
 
       {modalOpen && <Modal saveEvent={saveEvent} setOpenModal={setModalOpen} />}

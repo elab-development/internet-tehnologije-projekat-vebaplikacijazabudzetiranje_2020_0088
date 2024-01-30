@@ -36,10 +36,16 @@ function ContactSupport() {
       odgovor:
         "General BudgetApp is an app for splitting expenses with your friends. It lets you and your friends add various bills and keep track of who owes who, and then it helps you to settle up with each other. Here's a quick overview of how it works. First, sign up for an account!",
     },
+    {
+      id: 6,
+      pitanje: "How do I use BudgetApp?",
+      odgovor:
+        "General BudgetApp is an app for splitting expenses with your friends. It lets you and your friends add various bills and keep track of who owes who, and then it helps you to settle up with each other. Here's a quick overview of how it works. First, sign up for an account!",
+    },
   ];
 
   return (
-    <div>
+    <div className="font">
       <br />
       <h1>CONTACT SUPPORT </h1>
       <br />
@@ -47,7 +53,7 @@ function ContactSupport() {
       <div className="q">
         <Row>
           <Col>
-            <h3> Questions</h3>
+            <h3>Frequently asked questions</h3>
             <Accordion defaultActiveKey="0">
               {pitanja.map(function (item, index) {
                 return (
@@ -65,15 +71,20 @@ function ContactSupport() {
             <GoogleMaps />
           </Col>
         </Row>
+
+        <br />
+        <Row>
+          <h3>Ask question</h3>
+          <textarea name="postContent" defaultValue="" rows={4} cols={40} />
+          <input className="inputButton" type="button" value={"Send"}></input>
+        </Row>
         <Row>
           <Col>
             <br></br>
-            <BsEnvelopeAt style={{ width: 50, height: 50 }} />
-
-            <br></br>
-            <h4> Email: support@budgetApp.com</h4>
+            <BsEnvelopeAt style={{ width: 70, height: 70 }} />
           </Col>
-          <Col></Col>
+
+          <h4> Email: support@budgetApp.com</h4>
 
           {/* </div> */}
         </Row>

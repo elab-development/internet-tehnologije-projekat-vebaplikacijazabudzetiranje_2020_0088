@@ -1,0 +1,23 @@
+.about-me {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: left;
+}
+
+.about-me h1 {
+  color: #61dafb;
+}
+
+.about-me h2 {
+  color: #61dafb;
+  margin-top: 20px;
+}
+
+.about-me ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.about-me li {
+  margin-bottom: 10px;
+}
