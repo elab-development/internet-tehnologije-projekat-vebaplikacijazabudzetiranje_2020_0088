@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Register = ({ state }) => {
+const Register = (props) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,14 +12,11 @@ const Register = ({ state }) => {
   const navigate = useNavigate();
 
   const onButtonClick = () => {
-    // You'll update this function later...
-    // Set initial error values to empty
     setEmailError("");
     setPasswordError("");
-    navigate("/home");
+
     console.log(email);
 
-    // Check if the user has entered both fields correctly
     if ("" === email) {
       setEmailError("Please enter your email");
       return;
@@ -43,7 +41,8 @@ const Register = ({ state }) => {
       return;
     }
 
-    // Authentication calls will be made here...
+    props.register(email, password);
+    navigate("/home");
   };
 
   return (
@@ -94,6 +93,9 @@ const Register = ({ state }) => {
       </div>
     </div>
   );
+};
+Register.propTypes = {
+  register: PropTypes.func,
 };
 
 export default Register;
