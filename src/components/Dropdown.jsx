@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 const Main = styled("div")`
   font-family: sans-serif;
-  height: 50vh;
+  height: 20vh;
 `;
 
 // const DropDownContainer = styled("div")`
@@ -15,8 +15,8 @@ const DropDownHeader = styled("div")`
   padding: 0.4em 2em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
   font-weight: 500;
-  font-size: 1.3rem;
-  color: #3faffa;
+  font-size: 1rem;
+  color: #000000;
 `;
 
 const DropDownListContainer = styled("div")`
@@ -28,12 +28,12 @@ const DropDownListContainer = styled("div")`
 const DropDownList = styled("ul")`
   padding: 0;
   margin: 0;
-  padding-left: 1em;
+  padding-left: 0em;
   background: #ffffff;
   border: 2px solid #e5e5e5;
   box-sizing: border-box;
-  color: #3faffa;
-  font-size: 1.3rem;
+  color: #000000;
+  font-size: 1rem;
   font-weight: 500;
   &:first-child {
     padding-top: 0.8em;
@@ -48,16 +48,20 @@ const ListItem = styled("li")`
   }
 `;
 
-function Dropdown() {
+function Dropdown({selectedOption, setSelectedOption}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const options = ["Mangoes", "Apples", "Oranges"];
+  const options = [
+    "Travel",
+    "Food and Drink",
+    "Transportation",
+    "Entertainment",
+    "Uncategorized",
+  ];
   const toggling = () => setIsOpen(!isOpen);
 
   const onOptionClicked = (value) => () => {
     setSelectedOption(value);
     setIsOpen(false);
-    console.log(selectedOption);
   };
 
   return (
@@ -65,8 +69,9 @@ function Dropdown() {
       <h5>Select event type</h5>
       {/* <DropDownContainer> */}
       <DropDownHeader onClick={toggling}>
-        {selectedOption || "Mangoes"}
+        {selectedOption || "Travel"}
       </DropDownHeader>
+
       {isOpen && (
         // <DropDownListContainer>
         <DropDownList>

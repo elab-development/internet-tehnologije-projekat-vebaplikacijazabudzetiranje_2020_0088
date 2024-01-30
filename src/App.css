@@ -173,3 +173,27 @@ input[type="button"] {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
 }
+.envelope {
+  position: relative;
+  left: -600px;
+}
+q {
+  width: 150px;
+  border: 1px solid #000000;
+}
+q.que {
+  position: relative;
+  /* right: -600px; */
+  /* align-items: normal; */
+  text-align: right;
+  word-wrap: break-word;
+}
+.drop {
+  position: relative;
+  left: -10px;
+}
+.cal {
+  position: relative;
+  top: -100px;
+  left: 300px;
+}

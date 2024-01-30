@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import NekoPolje from "./NekoPolje";
+import PropTypes from "prop-types";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -13,7 +15,6 @@ const Login = (props) => {
   const onButtonClick = () => {
     setEmailError("");
     setPasswordError("");
-    navigate("/home");
     console.log(email);
 
     if ("" === email) {
@@ -36,47 +37,58 @@ const Login = (props) => {
       return;
     }
 
+      navigate("/home");
+
+
     // Authentication calls will be made here...
   };
 
   return (
-    <div className={"mainContainer"}>
-      <div className={"titleContainer"}>
-        <div>Login</div>
-      </div>
+      <div className={"mainContainer"}>
+          <div className={"titleContainer"}>
+              <div>Login</div>
+          </div>
 
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          value={email}
-          placeholder="Enter your email here"
-          onChange={(ev) => setEmail(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{emailError}</label>
+          <br/>
+
+          <br/>
+          <div className={"inputContainer mb-2"}>
+              <input
+                  type="email"
+                  value={email}
+                  placeholder="Enter your email here"
+                  onChange={(ev) => setEmail(ev.target.value)}
+                  className={"inputBox"}
+              />
+              <label className="errorLabel">{emailError}</label>
+          </div>
+          <div className={"inputContainer"}>
+              <input
+                  type="password"
+                  value={password}
+                  placeholder="Enter your password here"
+                  onChange={(ev) => setPassword(ev.target.value)}
+                  className={"inputBox"}
+              />
+              <label className="errorLabel">{passwordError}</label>
+          </div>
+          <br/>
+          <div className={"inputContainer"}>
+              <input
+                  className={"inputButton"}
+                  type="button"
+                  onClick={()=>{
+                      props.login(email, password);
+                  }}
+                  value={"Log in"}
+              />
+          </div>
       </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          type="password"
-          value={password}
-          placeholder="Enter your password here"
-          onChange={(ev) => setPassword(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{passwordError}</label>
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          onClick={onButtonClick}
-          value={"Log in"}
-        />
-      </div>
-    </div>
   );
+};
+
+Login.propTypes = {
+    login: PropTypes.func,
 };
 
 export default Login;

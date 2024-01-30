@@ -4,11 +4,12 @@ import Dropdown from "./Dropdown";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
-function Modal({ setOpenModal }) {
+function Modal({ saveEvent, setOpenModal }) {
   const [date, setDate] = useState(new Date());
   const [eventName, setEventName] = useState("");
   const [amount, setAmount] = useState(0);
   const [participantEmail, setParticipantEmail] = useState("");
+  const [selectedOption, setSelectedOption] = useState(null);
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -22,6 +23,7 @@ function Modal({ setOpenModal }) {
           </button>
         </div>
         <div className="title">ADD EVENT</div>
+        <br />
         <div className={"inputContainer"}>
           <input
             value={eventName}
@@ -30,6 +32,7 @@ function Modal({ setOpenModal }) {
             className={"inputBox"}
           />
         </div>
+        <br />
         <div className={"inputContainer"}>
           <input
             value={participantEmail}
@@ -38,6 +41,7 @@ function Modal({ setOpenModal }) {
             className={"inputBox"}
           />
         </div>
+        <br />
         <div className={"inputContainer"}>
           <input
             value={amount}
@@ -45,19 +49,19 @@ function Modal({ setOpenModal }) {
             onChange={(ev) => setAmount(ev.target.value)}
             className={"inputBox"}
           />
-        </div>
-
-        <div className="body">
-          <div>
+          <br />
+          <div className="drop">
+            <Dropdown setSelectedOption={setSelectedOption} selectedOption={selectedOption} />
+          </div>
+          <div className="cal">
             <DatePicker
               selected={date}
               onChange={(date) => setDate(date)}
               dateFormat="yyyy/MM/dd"
             />
           </div>
-          <div>
-            <Dropdown setIsOpen="false" />
-          </div>
+
+          <div className="body"></div>
         </div>
         <div className="footer">
           <button
@@ -70,6 +74,7 @@ function Modal({ setOpenModal }) {
           </button>
           <button
             onClick={() => {
+              saveEvent(eventName, participantEmail,amount , selectedOption,  date);
               setOpenModal(false);
             }}
           >
