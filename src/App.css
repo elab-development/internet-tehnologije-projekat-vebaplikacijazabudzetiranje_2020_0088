@@ -155,7 +155,7 @@ code {
 
 input[type="button"] {
   border: none;
-  background: cornflowerblue;
+  background: #6bae8f;
   color: white;
   padding: 12px 24px;
   margin: 8px;
@@ -173,13 +173,13 @@ input[type="button"] {
   font-size: 0.8rem;
   border: none;
   color: white;
-  background: #185adb;
+  background: #6bae8f;
   transition: all 0.25s ease;
 }
 
 .primaryBtn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
+  box-shadow: 0 10px 20px -10px #6bae8f;
 }
 .envelope {
   position: relative;
@@ -202,6 +202,16 @@ q.que {
 }
 .cal {
   position: relative;
-  top: -170px;
+  top: -110px;
   left: 300px;
+}
+.welcomeFont {
+  font-family: "Lobster", sans-serif;
+  color: #6bae8f;
+  font-size: 500%;
+}
+.helloFont {
+  font-family: "Lobster", sans-serif;
+  color: #6bae8f;
+  font-size: 70%;
 }

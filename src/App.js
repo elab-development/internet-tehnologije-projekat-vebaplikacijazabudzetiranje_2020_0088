@@ -36,6 +36,7 @@ function App(props) {
       window.location.href = "/home";
     } else {
       alert("Pogresni podaci za logovanje");
+      window.location.href = "/login";
     }
   };
 

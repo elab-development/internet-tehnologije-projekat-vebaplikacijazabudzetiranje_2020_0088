@@ -17,11 +17,16 @@ const Start = () => {
       <div className="font">
         <Row>
           <Col>
-            <img src="https://images.thewest.com.au/publication/B88728831Z/1517355857874_G591EHELD.2-1.jpg?imwidth=810&impolicy=wan_v3" />
+            <img
+              style={{ borderRadius: "50px" }}
+              src="https://images.thewest.com.au/publication/B88728831Z/1517355857874_G591EHELD.2-1.jpg?imwidth=810&impolicy=wan_v3"
+            />
           </Col>
           <Col>
             <div className={"titleContainer"}>
-              <div>Welcome!</div>
+              <div className="helloFont">
+                Less stress when sharing expenses with anyone!
+              </div>
             </div>
             <div className={"buttonContainer"}>
               <input

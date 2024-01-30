@@ -43,6 +43,21 @@ const Home = () => {
       <br />
       <br />
       <Row>
+        <Col>
+          <span className="welcomeFont"> Welcome home!</span>
+        </Col>
+        <Col>
+          <img
+            style={{ borderRadius: "50px" }}
+            width={300}
+            height={150}
+            src="https://www.louisianafcu.org/hs-fs/hubfs/Blog_The%20polite%20persons%20guide%20to%20splitting%20the%20bill%20(558%20%C3%97%20325%20px).png?width=837&name=Blog_The%20polite%20persons%20guide%20to%20splitting%20the%20bill%20(558%20%C3%97%20325%20px).pngbud"
+            alt="budgetApp"
+          />
+        </Col>
+      </Row>
+      <br />
+      <Row>
         <Table className={"table"} striped>
           <thead>
             <tr>
@@ -69,14 +84,14 @@ const Home = () => {
         </Table>
       </Row>
       <Row>
-        <button
-          className="openModalBtn"
+        <input
+          type="button"
+          // className="openModalBtn"
           onClick={() => {
             setModalOpen(true);
           }}
-        >
-          Add event
-        </button>
+          value={"Add event"}
+        ></input>
       </Row>
 
       <br />

@@ -3,6 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
+import { BsTextCenter } from "react-icons/bs";
 
 function NavBar({ username, logout }) {
   const isLogged = window.sessionStorage.getItem("email") !== null;
@@ -39,6 +40,11 @@ function NavBar({ username, logout }) {
                 </NavDropdown.Item>
               )}
             </NavDropdown>
+            {isLogged && (
+              <Nav.Link disabled href="">
+                <span className="font">BudgetApp </span>
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

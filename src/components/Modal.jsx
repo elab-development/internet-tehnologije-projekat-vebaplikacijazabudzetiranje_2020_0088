@@ -10,6 +10,8 @@ function Modal({ saveEvent, setOpenModal }) {
   const [amount, setAmount] = useState(0);
   const [participantEmail, setParticipantEmail] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
+  const [validator, setValidator] = useState(true);
+
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -51,7 +53,10 @@ function Modal({ saveEvent, setOpenModal }) {
           />
           <br />
           <div className="drop">
-            <Dropdown setSelectedOption={setSelectedOption} selectedOption={selectedOption} />
+            <Dropdown
+              setSelectedOption={setSelectedOption}
+              selectedOption={selectedOption}
+            />
           </div>
           <div className="cal">
             <DatePicker
@@ -64,22 +69,38 @@ function Modal({ saveEvent, setOpenModal }) {
           <div className="body"></div>
         </div>
         <div className="footer">
-          <button
+          <input
+            type="button"
             onClick={() => {
               setOpenModal(false);
             }}
             id="cancelBtn"
-          >
-            Cancel
-          </button>
-          <button
+            value={"Cancel"}
+          ></input>
+          <input
+            type="button"
             onClick={() => {
-              saveEvent(eventName, participantEmail,amount , selectedOption,  date);
-              setOpenModal(false);
+              if (
+                eventName === "" ||
+                participantEmail === "" ||
+                amount === 0 ||
+                selectedOption === null
+              ) {
+                setValidator(false);
+                alert("Incorrect filled form.Please fill all fields.");
+              } else {
+                saveEvent(
+                  eventName,
+                  participantEmail,
+                  amount,
+                  selectedOption,
+                  date
+                );
+                setOpenModal(false);
+              }
             }}
-          >
-            Save
-          </button>
+            value={"Save"}
+          ></input>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import Results from "../components/Results";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
+import Rate from "../components/Rate";
 
 function Account(props) {
   const [searchResults, setSearchResults] = useState([]);
@@ -16,9 +17,8 @@ function Account(props) {
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
-      <Results searchResults={searchResults} />
-
+      {/* <SearchBar onSearch={handleSearch} />
+      <Results searchResults={searchResults} /> */}
       <br />
       <Row>
         <Col>
@@ -39,9 +39,15 @@ function Account(props) {
           </Row>
           <Row>
             password:
-            <input disabled={true} placeholder="***" />
+            <input disabled={true} placeholder="*" />
           </Row>
         </Col>
+      </Row>
+      <br></br>
+      <br></br>
+      <br></br>
+      <Row>
+        <Rate></Rate>
       </Row>
     </div>
   );
