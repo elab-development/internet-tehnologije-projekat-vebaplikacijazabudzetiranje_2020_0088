@@ -52,6 +52,7 @@ function App(props) {
 
     login(email, password);
   };
+
   // const saveEvent = (name, emailParticipant, amount, type, date) => {
   //   const data = {
   //     name: name,

@@ -7,7 +7,7 @@ import { BsTextCenter } from "react-icons/bs";
 import logo from "./logo.png";
 import { NavbarBrand } from "react-bootstrap";
 
-function NavBar({ username, logout }) {
+function NavBar({ username, logout, onButtonSearch }) {
   const isLogged = window.sessionStorage.getItem("email") !== null;
 
   return (
