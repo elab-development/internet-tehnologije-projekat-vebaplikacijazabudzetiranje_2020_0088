@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { BsTextCenter } from "react-icons/bs";
 import logo from "./logo.png";
 import { NavbarBrand } from "react-bootstrap";
+import "../App.css";
 
 function NavBar({ username, logout, onButtonSearch }) {
   const isLogged = window.sessionStorage.getItem("email") !== null;
@@ -21,9 +22,12 @@ function NavBar({ username, logout, onButtonSearch }) {
           )}
           {isLogged ? null : <Navbar.Brand href="/">BudgetApp</Navbar.Brand>}
         </Container>
+        <Container></Container>
+        <Container></Container>
+        <Container></Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className={["me-auto"]} style={{ width: "100%" }}>
+          <Nav className={(["me-auto"], ["font"])} style={{ width: "100%" }}>
             {isLogged && <Nav.Link href="/home">Home</Nav.Link>}
 
             <Nav.Link href="/about">About</Nav.Link>

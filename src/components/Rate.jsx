@@ -7,7 +7,7 @@ const Rate = () => {
   return (
     <div>
       <Row>
-        <h1>Rate us</h1>
+        <h2>Rate us</h2>
       </Row>
       <Row>
         <Container>

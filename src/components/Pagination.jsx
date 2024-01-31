@@ -46,6 +46,8 @@ function Pagination(props) {
       </Row>
       <br />
 
+      <br />
+      <br />
       <ReactPaginate
         breakLabel="..."
         nextLabel="next >"

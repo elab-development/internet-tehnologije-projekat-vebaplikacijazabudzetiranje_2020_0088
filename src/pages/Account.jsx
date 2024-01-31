@@ -1,88 +1,106 @@
 import React, { useEffect } from "react";
 import "../App.css";
-import { BsPersonBadgeFill } from "react-icons/bs";
 import SearchBar from "../components/SearchBar";
-import Results from "../components/Results";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Rate from "../components/Rate";
 import Pagination from "../components/Pagination";
+import { left } from "@popperjs/core";
+import fetch from "cross-fetch";
 
 function Account(props) {
   const saveEvents = [
     {
       name: "Coffee",
-      email: "user@gmail.com",
+      email: "marko@gmail.com",
       amount: 500,
       type: "Food and Drink",
       date: "30/01/2024",
       image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
+        "https://images.pexels.com/photos/1170659/pexels-photo-1170659.jpeg?cs=srgb&dl=art-bread-breakfast-1170659.jpg&fm=jpg",
     },
     {
-      name: "Coffee",
-      email: "user@gmail.com",
+      name: "Taxi",
+      email: "marko@gmail.com",
+      amount: 1000,
+      type: "Transportation",
+      date: "30/01/2024",
+      image:
+        "https://www.proferecursos.com/wp-content/uploads/Means-of-transport-vocabulary-taxi.jpg",
+    },
+    {
+      name: "Picado",
+      email: "luka@gmail.com",
+      amount: 370,
+      type: "Entertainment",
+      date: "15/01/2024",
+      image:
+        "https://www.eventmanagerblog.com/wp-content/uploads/2018/10/350x215-FEAT-in-post-Entertainment.jpg",
+    },
+    {
+      name: "Lunch",
+      email: "mila@gmail.com",
+      amount: 3000,
+      type: "Food and Drink",
+      date: "23/01/2024",
+      image:
+        "https://images.pexels.com/photos/1170659/pexels-photo-1170659.jpeg?cs=srgb&dl=art-bread-breakfast-1170659.jpg&fm=jpg",
+    },
+    {
+      name: "Coffee with sister",
+      email: "sara@gmail.com",
       amount: 500,
       type: "Food and Drink",
       date: "30/01/2024",
       image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
+        "https://images.pexels.com/photos/1170659/pexels-photo-1170659.jpeg?cs=srgb&dl=art-bread-breakfast-1170659.jpg&fm=jpg",
     },
     {
-      name: "Coffee",
-      email: "user@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
-    },
-    {
-      name: "Coffee",
-      email: "user@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
-    },
-    {
-      name: "Coffee",
-      email: "user@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
-    },
-    {
-      name: "Coffee",
-      email: "user@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
-    },
-    {
-      name: "Coffee",
-      email: "user@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
-    },
-    {
-      name: "Coffee",
-      email: "user@gmail.com",
-      amount: 500,
+      name: "Barselona",
+      email: "lazar@gmail.com",
+      amount: 50000,
       type: "Travel",
       date: "30/01/2024",
       image:
-        "https://img.freepik.com/free-vector/coffee-love-foam-with-beans-cartoon-icon-illustration_138676-2575.jpg",
+        "https://travelprnews.com/wp-content/uploads/2021/11/https___specials-images.forbesimg.com_imageserve_920377840_0x0.jpg",
+    },
+    {
+      name: "Billiards",
+      email: "ognjen@gmail.com",
+      amount: 500,
+      type: "Entertainment",
+      date: "30/01/2024",
+      image:
+        "https://www.eventmanagerblog.com/wp-content/uploads/2018/10/350x215-FEAT-in-post-Entertainment.jpg",
+    },
+    {
+      name: "Paris",
+      email: "mila@gmail.com",
+      amount: 80000,
+      type: "Travel",
+      date: "18/12/2023",
+      image:
+        "https://travelprnews.com/wp-content/uploads/2021/11/https___specials-images.forbesimg.com_imageserve_920377840_0x0.jpg",
     },
   ];
+
+  const [phoneNumber, setPhoneNumber] = useState("");
+  useEffect(() => {
+    generateRandomPhoneNumber();
+  }, []);
+  const generateRandomPhoneNumber = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/5"
+      );
+      const data = await response.json();
+      const phone = data.phone;
+      setPhoneNumber(phone);
+      console.log(data.phone);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const [searchResults, setSearchResults] = useState(saveEvents);
   const handleSearch = (query) => {
@@ -92,16 +110,6 @@ function Account(props) {
 
     setSearchResults(pretraga);
   };
-
-  const [images, setImages] = useState([]);
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/albums/1/photos").then(
-      (response) =>
-        response.json().then((data) => {
-          setImages(data);
-        })
-    );
-  }, []);
 
   return (
     <div>
@@ -116,7 +124,10 @@ function Account(props) {
       <Row>
         <Col>
           <h4>
-            <BsPersonBadgeFill style={{ width: 100, height: 100 }} />
+            <img
+              src="https://lh3.googleusercontent.com/-WFscYdOjVPbNYRlZ4gCyiuk137pZL8WLveTo_xUZYfBVanaIUwC9uObuNNkkMiaEg=s100-rw"
+              style={{ width: 150, height: 150 }}
+            />
           </h4>
         </Col>
         <Col>
@@ -126,19 +137,17 @@ function Account(props) {
           </Row>
           <br />
           <Row>
-            password:
-            <input disabled={true} placeholder="*" />
+            phone number:
+            <input disabled={true} placeholder={phoneNumber} />
           </Row>
         </Col>
+        <Col></Col>
       </Row>
       <br />
       <SearchBar onSearch={handleSearch} />
 
       <br />
       <Pagination data={searchResults}></Pagination>
-      <Row>
-        <Rate></Rate>
-      </Row>
     </div>
   );
 }

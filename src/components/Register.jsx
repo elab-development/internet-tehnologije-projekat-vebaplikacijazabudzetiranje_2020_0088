@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import MyButton from "./MyButton";
 
 const Register = (props) => {
   const [username, setUsername] = useState("");
@@ -52,7 +53,8 @@ const Register = (props) => {
           Register
         </div>
       </div>
-
+      <br />
+      <br />
       <div className={"inputContainer"}>
         <input
           value={username}
@@ -85,14 +87,7 @@ const Register = (props) => {
         <label className="errorLabel">{passwordError}</label>
       </div>
       <br />
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          onClick={onButtonClick}
-          value={"Register"}
-        />
-      </div>
+      <MyButton onClick={onButtonClick} value={"Sign up"}></MyButton>
     </div>
   );
 };

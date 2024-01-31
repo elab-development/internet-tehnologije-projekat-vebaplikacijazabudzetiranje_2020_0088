@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import PropTypes from "prop-types";
+import MyButton from "./MyButton";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -40,10 +41,8 @@ const Login = (props) => {
           Login
         </div>
       </div>
-
       <br />
 
-      <br />
       <div className={"inputContainer mb-2"}>
         <input
           type="email"
@@ -54,6 +53,7 @@ const Login = (props) => {
         />
         <label className="errorLabel">{emailError}</label>
       </div>
+
       <div className={"inputContainer"}>
         <input
           type="password"
@@ -65,17 +65,7 @@ const Login = (props) => {
         <label className="errorLabel">{passwordError}</label>
       </div>
       <br />
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          // onClick={() => {
-          //   props.login(email, password);
-          // }}
-          onClick={onButtonClick}
-          value={"Log in"}
-        />
-      </div>
+      <MyButton onClick={onButtonClick} value={"Log in"}></MyButton>
     </div>
   );
 };

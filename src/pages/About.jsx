@@ -2,6 +2,7 @@ import React from "react";
 import "./AboutMe.css";
 import { Col, Row } from "react-bootstrap";
 import CardEmployee from "../components/CardEmployee";
+import Rate from "../components/Rate";
 
 const About = () => {
   return (
@@ -69,6 +70,10 @@ const About = () => {
             image="https://etimg.etb2bimg.com/photo/93893896.cms"
           />
         </Col>
+      </Row>
+      <br></br>
+      <Row>
+        <Rate></Rate>
       </Row>
     </div>
   );
