@@ -9,7 +9,7 @@ const About = () => {
       <Row>
         <br></br>
         <br></br>
-        <h1>
+        <h1 className="font" style={{ fontSize: 60, color: "#6bae8f" }}>
           {" "}
           <b>About us</b>
         </h1>
@@ -34,8 +34,15 @@ const About = () => {
 
       <br></br>
       <br></br>
-      <span className="font">
-        <h2>
+      <span>
+        <h2
+          className="font"
+          style={{
+            fontSize: 30,
+            color: "#6bae8f",
+            textDecoration: " underline",
+          }}
+        >
           <b>MEET THE TEAM</b>
         </h2>
       </span>

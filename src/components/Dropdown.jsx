@@ -29,10 +29,10 @@ const DropDownList = styled("ul")`
   padding: 0;
   margin: 0;
   padding-left: 0em;
-  background: #ffffff;
+  background: #e7f6ef;
   border: 2px solid #e5e5e5;
   box-sizing: border-box;
-  color: #000000;
+  color: #3cb571;
   font-size: 1rem;
   font-weight: 500;
   &:first-child {
@@ -44,11 +44,11 @@ const ListItem = styled("li")`
   list-style: none;
   margin-bottom: 0.8em;
   &:hover {
-    color: #fd9e46;
+    color: #3cb571;
   }
 `;
 
-function Dropdown({selectedOption, setSelectedOption}) {
+function Dropdown({ selectedOption, setSelectedOption }) {
   const [isOpen, setIsOpen] = useState(false);
   const options = [
     "Travel",
@@ -66,22 +66,21 @@ function Dropdown({selectedOption, setSelectedOption}) {
 
   return (
     <Main>
-      <h5>Select event type</h5>
       {/* <DropDownContainer> */}
-      <DropDownHeader onClick={toggling}>
-        {selectedOption || "Travel"}
+      <DropDownHeader style={{ color: "#3CB571" }} onClick={toggling}>
+        {selectedOption || "Select event type"}
       </DropDownHeader>
 
       {isOpen && (
-        // <DropDownListContainer>
-        <DropDownList>
-          {options.map((option) => (
-            <ListItem onClick={onOptionClicked(option)} key={Math.random()}>
-              {option}
-            </ListItem>
-          ))}
-        </DropDownList>
-        // </DropDownListContainer>
+        <DropDownListContainer>
+          <DropDownList>
+            {options.map((option) => (
+              <ListItem onClick={onOptionClicked(option)} key={Math.random()}>
+                {option}
+              </ListItem>
+            ))}
+          </DropDownList>
+        </DropDownListContainer>
       )}
       {/* </DropDownContainer> */}
     </Main>

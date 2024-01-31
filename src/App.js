@@ -52,6 +52,19 @@ function App(props) {
 
     login(email, password);
   };
+  // const saveEvent = (name, emailParticipant, amount, type, date) => {
+  //   const data = {
+  //     name: name,
+  //     email: email,
+  //     amount: amount,
+  //     type: type,
+  //     date: date.toLocaleDateString("en-us", {
+  //       weekday: "long",
+  //       year: "numeric",
+  //       month: "short",
+  //       day: "numeric",
+  //     }),
+  //   };
 
   return (
     <div className="App">

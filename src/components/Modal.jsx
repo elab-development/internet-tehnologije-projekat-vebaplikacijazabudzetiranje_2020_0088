@@ -3,11 +3,12 @@ import "../Modal.css";
 import Dropdown from "./Dropdown";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { Col, Row } from "react-bootstrap";
 
 function Modal({ saveEvent, setOpenModal }) {
   const [date, setDate] = useState(new Date());
   const [eventName, setEventName] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [participantEmail, setParticipantEmail] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
   const [validator, setValidator] = useState(true);
@@ -24,7 +25,11 @@ function Modal({ saveEvent, setOpenModal }) {
             X
           </button>
         </div>
-        <div className="title">ADD EVENT</div>
+        <div className={["title"]}>
+          <span className="font" style={{ color: "#3CB571", fontSize: 30 }}>
+            ADD EVENT
+          </span>
+        </div>
         <br />
         <div className={"inputContainer"}>
           <input
@@ -52,22 +57,28 @@ function Modal({ saveEvent, setOpenModal }) {
             className={"inputBox"}
           />
           <br />
-          <div className="drop">
-            <Dropdown
-              setSelectedOption={setSelectedOption}
-              selectedOption={selectedOption}
-            />
-          </div>
-          <div className="cal">
-            <DatePicker
-              selected={date}
-              onChange={(date) => setDate(date)}
-              dateFormat="yyyy/MM/dd"
-            />
-          </div>
-
-          <div className="body"></div>
         </div>
+        {/* <div className="drop"> */}
+        <div>
+          <Row>
+            <Col>
+              <Dropdown
+                setSelectedOption={setSelectedOption}
+                selectedOption={selectedOption}
+              />
+            </Col>
+            <Col>
+              <DatePicker
+                selected={date}
+                onChange={(date) => setDate(date)}
+                dateFormat="dd/MM/yyyy"
+              />
+            </Col>
+          </Row>
+        </div>
+
+        <div className="body"></div>
+
         <div className="footer">
           <input
             type="button"

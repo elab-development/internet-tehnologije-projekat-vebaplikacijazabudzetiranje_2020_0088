@@ -48,7 +48,9 @@ const Register = (props) => {
   return (
     <div className={"mainContainer"}>
       <div className={"titleContainer"}>
-        <div>Register</div>
+        <div className="font" style={{ fontSize: 80, color: "#6bae8f" }}>
+          Register
+        </div>
       </div>
 
       <div className={"inputContainer"}>

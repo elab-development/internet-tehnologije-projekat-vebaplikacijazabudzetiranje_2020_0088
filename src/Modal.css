@@ -14,13 +14,13 @@
   width: 600px;
   height: 650px;
   border-radius: 12px;
-  background-color: white;
+  background-color: #e7f6ef;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
   padding: 25px;
   position: relative;
-  top: -50px;
+  top: -30px;
 }
 
 .modalContainer .title {

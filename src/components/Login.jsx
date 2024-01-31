@@ -42,7 +42,9 @@ const Login = (props) => {
   return (
     <div className={"mainContainer"}>
       <div className={"titleContainer"}>
-        <div>Login</div>
+        <div className="font" style={{ fontSize: 100, color: "#6bae8f" }}>
+          Login
+        </div>
       </div>
 
       <br />

@@ -17,8 +17,8 @@ function Account(props) {
 
   return (
     <div>
-      {/* <SearchBar onSearch={handleSearch} />
-      <Results searchResults={searchResults} /> */}
+      <SearchBar onSearch={handleSearch} />
+      <Results searchResults={searchResults} />
       <br />
       <Row>
         <Col>

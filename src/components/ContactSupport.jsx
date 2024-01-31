@@ -47,13 +47,29 @@ function ContactSupport() {
   return (
     <div className="font">
       <br />
-      <h1>CONTACT SUPPORT </h1>
+      <h1
+        className="font"
+        style={{
+          fontSize: 40,
+          color: "#6bae8f",
+        }}
+      >
+        CONTACT SUPPORT{" "}
+      </h1>
       <br />
       <br />
       <div className="q">
         <Row>
           <Col>
-            <h3>Frequently asked questions</h3>
+            <h3
+              className="font"
+              style={{
+                fontSize: 30,
+                color: "#000000",
+              }}
+            >
+              Frequently asked questions
+            </h3>
             <Accordion defaultActiveKey="0">
               {pitanja.map(function (item, index) {
                 return (
