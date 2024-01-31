@@ -70,24 +70,25 @@ function ContactSupport() {
             >
               Frequently asked questions
             </h3>
-            <Accordion defaultActiveKey="0">
+            <Accordion defaultActiveKey="0" className="font">
               {pitanja.map(function (item, index) {
                 return (
-                  <Accordion.Item eventKey={index}>
+                  <Accordion.Item
+                    eventKey={index}
+                    style={{ backgroundColor: "#e7f6ef" }}
+                  >
                     <Accordion.Header>{item.pitanje}</Accordion.Header>
                     <Accordion.Body>{item.odgovor}</Accordion.Body>
                   </Accordion.Item>
                 );
               })}
             </Accordion>
-            {/* <div className="envelope"> */}
           </Col>
 
           <Col>
             <GoogleMaps />
           </Col>
         </Row>
-
         <br />
         <Row>
           <h3>Ask question</h3>
@@ -99,10 +100,7 @@ function ContactSupport() {
             <br></br>
             <BsEnvelopeAt style={{ width: 70, height: 70 }} />
           </Col>
-
           <h4> Email: support@budgetApp.com</h4>
-
-          {/* </div> */}
         </Row>
       </div>
     </div>
