@@ -9,7 +9,7 @@ function CardEmployee({ name, description, image }) {
           <Card.Title>
             <h3>
               <b>{name}</b>
-            </h3>{" "}
+            </h3>
           </Card.Title>
           <Card.Text>
             <b>{description}</b>

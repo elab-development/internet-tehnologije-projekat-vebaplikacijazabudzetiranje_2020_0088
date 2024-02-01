@@ -1,5 +1,4 @@
 import React from "react";
-import "./AboutMe.css";
 import { Col, Row } from "react-bootstrap";
 import CardEmployee from "../components/CardEmployee";
 import Rate from "../components/Rate";

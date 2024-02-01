@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+
 const Main = styled("div")`
   font-family: sans-serif;
   height: 20vh;
 `;
-
-// const DropDownContainer = styled("div")`
-//   width: 10.5em;
-//   margin: 0 auto;
-// `;
 
 const DropDownHeader = styled("div")`
   margin-bottom: 0.8em;
@@ -66,11 +62,9 @@ function Dropdown({ selectedOption, setSelectedOption }) {
 
   return (
     <Main>
-      {/* <DropDownContainer> */}
       <DropDownHeader style={{ color: "#3CB571" }} onClick={toggling}>
         {selectedOption || "Select event type"}
       </DropDownHeader>
-
       {isOpen && (
         <DropDownListContainer>
           <DropDownList>
@@ -82,7 +76,6 @@ function Dropdown({ selectedOption, setSelectedOption }) {
           </DropDownList>
         </DropDownListContainer>
       )}
-      {/* </DropDownContainer> */}
     </Main>
   );
 }

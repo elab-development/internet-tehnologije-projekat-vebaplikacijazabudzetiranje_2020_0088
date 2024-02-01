@@ -22,8 +22,6 @@ const Home = () => {
       }),
     };
 
-    console.log(data);
-
     const events = window.sessionStorage.getItem("events");
     let parsedEvents = JSON.parse(events);
 
@@ -86,16 +84,13 @@ const Home = () => {
       <Row>
         <input
           type="button"
-          // className="openModalBtn"
           onClick={() => {
             setModalOpen(true);
           }}
           value={"Add event"}
         ></input>
       </Row>
-
       <br />
-
       {modalOpen && <Modal saveEvent={saveEvent} setOpenModal={setModalOpen} />}
     </div>
   );

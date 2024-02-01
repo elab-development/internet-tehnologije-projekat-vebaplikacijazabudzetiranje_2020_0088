@@ -20,10 +20,6 @@ const Rate = () => {
                   value={givenRating}
                   onClick={() => {
                     setRate(givenRating);
-                    // alert(
-                    //   `Are you sure you want to give
-                    //                     ${givenRating} stars ?`
-                    // );
                   }}
                 />
                 <Rating>

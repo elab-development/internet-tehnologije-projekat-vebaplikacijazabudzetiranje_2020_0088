@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import MyButton from "../components/MyButton";
 
 const Start = () => {
   const navigate = useNavigate();
@@ -29,18 +30,8 @@ const Start = () => {
               </div>
             </div>
             <div className={"buttonContainer"}>
-              <input
-                className={"inputButton"}
-                type="button"
-                onClick={onButtonSignUp}
-                value={"Sign up"}
-              />
-              <input
-                className={"inputButton"}
-                type="button"
-                onClick={onButtonClick}
-                value={"Log in"}
-              />
+              <MyButton onClick={onButtonClick} value={"Log in"}></MyButton>
+              <MyButton onClick={onButtonSignUp} value={"Sign up"}></MyButton>
             </div>
           </Col>
         </Row>

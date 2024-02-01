@@ -3,8 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import PropTypes from "prop-types";
-import { BsTextCenter } from "react-icons/bs";
-import logo from "./logo.png";
+import loggo from "./loggo.jpeg";
 import { NavbarBrand } from "react-bootstrap";
 import "../App.css";
 import useLoggedIn from "../hooks/useLoggedIn";
@@ -49,7 +48,7 @@ function NavBar({ username, logout, onButtonSearch }) {
                     Contact support
                   </NavDropdown.Item>
                 )}
-                {/* <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item> */}
+
                 <NavDropdown.Divider />
                 {isLogged && (
                   <NavDropdown.Item href="#" onClick={logout}>
@@ -62,9 +61,9 @@ function NavBar({ username, logout, onButtonSearch }) {
               <Nav.Link disabled href="">
                 <img
                   className="d-inline-block align-top"
-                  src={logo}
+                  src={loggo}
                   height={35}
-                  width={35}
+                  width={55}
                   alt="logoimage"
                   style={{ borderRadius: "50px", justifyContent: "end" }}
                 />

@@ -58,7 +58,7 @@ function Modal({ saveEvent, setOpenModal }) {
           />
           <br />
         </div>
-        {/* <div className="drop"> */}
+
         <div>
           <Row>
             <Col>

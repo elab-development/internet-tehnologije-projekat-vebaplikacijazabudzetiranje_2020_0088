@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import React from "react";
 import PropTypes from "prop-types";
 import MyButton from "./MyButton";
+import MyInputField from "./MyInputField";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-  const navigate = useNavigate();
 
   const onButtonClick = () => {
     setEmailError("");
@@ -42,28 +40,18 @@ const Login = (props) => {
         </div>
       </div>
       <br />
-
-      <div className={"inputContainer mb-2"}>
-        <input
-          type="email"
-          value={email}
-          placeholder="Enter your email here"
-          onChange={(ev) => setEmail(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{emailError}</label>
-      </div>
-
-      <div className={"inputContainer"}>
-        <input
-          type="password"
-          value={password}
-          placeholder="Enter your password here"
-          onChange={(ev) => setPassword(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{passwordError}</label>
-      </div>
+      <MyInputField
+        type="email"
+        value={email}
+        setValue={setEmail}
+        error={emailError}
+      ></MyInputField>
+      <MyInputField
+        type="password"
+        value={password}
+        setValue={setPassword}
+        error={passwordError}
+      ></MyInputField>
       <br />
       <MyButton onClick={onButtonClick} value={"Log in"}></MyButton>
     </div>

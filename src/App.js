@@ -14,9 +14,6 @@ import Account from "./pages/Account";
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-
   const [useriZaLogovanje, setUseriZaLogovanje] = useState([
     {
       email: "marta@gmail.com",
@@ -52,20 +49,6 @@ function App(props) {
 
     login(email, password);
   };
-
-  // const saveEvent = (name, emailParticipant, amount, type, date) => {
-  //   const data = {
-  //     name: name,
-  //     email: email,
-  //     amount: amount,
-  //     type: type,
-  //     date: date.toLocaleDateString("en-us", {
-  //       weekday: "long",
-  //       year: "numeric",
-  //       month: "short",
-  //       day: "numeric",
-  //     }),
-  //   };
 
   return (
     <div className="App">

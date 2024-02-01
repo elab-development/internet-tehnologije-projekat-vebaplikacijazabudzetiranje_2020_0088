@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import MyButton from "./MyButton";
+import MyInputField from "./MyInputField";
 
 const Register = (props) => {
   const [username, setUsername] = useState("");
@@ -15,15 +16,16 @@ const Register = (props) => {
   const onButtonClick = () => {
     setEmailError("");
     setPasswordError("");
+    setUsernameError("");
 
     console.log(email);
 
-    if ("" === email) {
-      setEmailError("Please enter your email");
-      return;
-    }
     if ("" === username) {
       setUsernameError("Please enter your username");
+      return;
+    }
+    if ("" === email) {
+      setEmailError("Please enter your email");
       return;
     }
 
@@ -55,37 +57,26 @@ const Register = (props) => {
       </div>
       <br />
       <br />
-      <div className={"inputContainer"}>
-        <input
-          value={username}
-          placeholder="Enter your username here"
-          onChange={(ev) => setUsername(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{usernameError}</label>
-      </div>
-
+      <MyInputField
+        type="username"
+        value={username}
+        setValue={setUsername}
+        error={usernameError}
+      ></MyInputField>
       <br />
-      <div className={"inputContainer"}>
-        <input
-          value={email}
-          placeholder="Enter your email here"
-          onChange={(ev) => setEmail(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{emailError}</label>
-      </div>
+      <MyInputField
+        type="email"
+        value={email}
+        setValue={setEmail}
+        error={emailError}
+      ></MyInputField>
       <br />
-      <div className={"inputContainer"}>
-        <input
-          type="password"
-          value={password}
-          placeholder="Enter your password here"
-          onChange={(ev) => setPassword(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{passwordError}</label>
-      </div>
+      <MyInputField
+        type="password"
+        value={password}
+        setValue={setPassword}
+        error={passwordError}
+      ></MyInputField>
       <br />
       <MyButton onClick={onButtonClick} value={"Sign up"}></MyButton>
     </div>

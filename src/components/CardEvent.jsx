@@ -1,5 +1,4 @@
 import Card from "react-bootstrap/Card";
-import logo from "./logo.png";
 import { Col, Row } from "react-bootstrap";
 
 function CardEvent({ type, name, email, amount, date, image }) {

@@ -3,12 +3,30 @@ import "../App.css";
 import SearchBar from "../components/SearchBar";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import Rate from "../components/Rate";
 import Pagination from "../components/Pagination";
-import { left } from "@popperjs/core";
 import fetch from "cross-fetch";
+import profile from "./id_9470706.png";
+import foodAndDrink from "./food.jpeg";
+import transport from "./transport.jpeg";
+import uncat from "./uncategorized.jpeg";
+import lugg from "./lugg.jpeg";
+import entertainment from "./entertainment.jpeg";
 
 function Account(props) {
+  const returnImage = (value) => {
+    switch (value) {
+      case "Travel":
+        return lugg;
+      case "Transportation":
+        return transport;
+      case "Entertainment":
+        return entertainment;
+      case "Food and Drink":
+        return foodAndDrink;
+      default:
+        return <img src={uncat} alt="Uncategorized image" />;
+    }
+  };
   const saveEvents = [
     {
       name: "Coffee",
@@ -16,8 +34,7 @@ function Account(props) {
       amount: 500,
       type: "Food and Drink",
       date: "30/01/2024",
-      image:
-        "https://images.pexels.com/photos/1170659/pexels-photo-1170659.jpeg?cs=srgb&dl=art-bread-breakfast-1170659.jpg&fm=jpg",
+      image: returnImage("Food and Drink"),
     },
     {
       name: "Taxi",
@@ -25,8 +42,7 @@ function Account(props) {
       amount: 1000,
       type: "Transportation",
       date: "30/01/2024",
-      image:
-        "https://www.proferecursos.com/wp-content/uploads/Means-of-transport-vocabulary-taxi.jpg",
+      image: returnImage("Transportation"),
     },
     {
       name: "Picado",
@@ -34,8 +50,7 @@ function Account(props) {
       amount: 370,
       type: "Entertainment",
       date: "15/01/2024",
-      image:
-        "https://www.eventmanagerblog.com/wp-content/uploads/2018/10/350x215-FEAT-in-post-Entertainment.jpg",
+      image: returnImage("Entertainment"),
     },
     {
       name: "Lunch",
@@ -43,8 +58,7 @@ function Account(props) {
       amount: 3000,
       type: "Food and Drink",
       date: "23/01/2024",
-      image:
-        "https://images.pexels.com/photos/1170659/pexels-photo-1170659.jpeg?cs=srgb&dl=art-bread-breakfast-1170659.jpg&fm=jpg",
+      image: returnImage("Food and Drink"),
     },
     {
       name: "Coffee with sister",
@@ -52,8 +66,7 @@ function Account(props) {
       amount: 500,
       type: "Food and Drink",
       date: "30/01/2024",
-      image:
-        "https://images.pexels.com/photos/1170659/pexels-photo-1170659.jpeg?cs=srgb&dl=art-bread-breakfast-1170659.jpg&fm=jpg",
+      image: returnImage("Food and Drink"),
     },
     {
       name: "Barselona",
@@ -61,8 +74,7 @@ function Account(props) {
       amount: 50000,
       type: "Travel",
       date: "30/01/2024",
-      image:
-        "https://travelprnews.com/wp-content/uploads/2021/11/https___specials-images.forbesimg.com_imageserve_920377840_0x0.jpg",
+      image: returnImage("Travel"),
     },
     {
       name: "Billiards",
@@ -70,17 +82,15 @@ function Account(props) {
       amount: 500,
       type: "Entertainment",
       date: "30/01/2024",
-      image:
-        "https://www.eventmanagerblog.com/wp-content/uploads/2018/10/350x215-FEAT-in-post-Entertainment.jpg",
+      image: returnImage("Entertainment"),
     },
     {
-      name: "Paris",
+      name: "Dentist",
       email: "mila@gmail.com",
       amount: 80000,
-      type: "Travel",
+      type: "Uncategorized",
       date: "18/12/2023",
-      image:
-        "https://travelprnews.com/wp-content/uploads/2021/11/https___specials-images.forbesimg.com_imageserve_920377840_0x0.jpg",
+      image: uncat,
     },
   ];
 
@@ -124,10 +134,7 @@ function Account(props) {
       <Row>
         <Col>
           <h4>
-            <img
-              src="https://lh3.googleusercontent.com/-WFscYdOjVPbNYRlZ4gCyiuk137pZL8WLveTo_xUZYfBVanaIUwC9uObuNNkkMiaEg=s100-rw"
-              style={{ width: 150, height: 150 }}
-            />
+            <img src={profile} style={{ width: 150, height: 150 }} />
           </h4>
         </Col>
         <Col>
