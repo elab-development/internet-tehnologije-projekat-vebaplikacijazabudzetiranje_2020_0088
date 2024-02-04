@@ -47,15 +47,26 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($user_id)
+    // public function show($user_id)
+    // {
+    //     $user = User::find($user_id);
+    //     if(is_null($user)){
+    //               return response()->json('data not found',404);
+    //             }
+    //     return response()->json($user);
+        
+    // }
+    public function show(Request $request)
     {
-        $user = User::find($user_id);
+        $user = User::where('email', $request->email)->first();
         if(is_null($user)){
                   return response()->json('data not found',404);
                 }
-        return response()->json($user);
-        
+        return response()->json(['data'=>$user]);
+
+       
     }
+
 
     /**
      * Show the form for editing the specified resource.

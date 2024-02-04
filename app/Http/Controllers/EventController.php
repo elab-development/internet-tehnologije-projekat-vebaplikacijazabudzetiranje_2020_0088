@@ -22,13 +22,17 @@ class EventController extends Controller
         $user = $request->user();
         
         if($user->role != 'admin'){
-            return response()->json([
-                'message' => 'Nemate pristup ovoj ruti',
-            ]);
+            $events = Event::where(['user_id' => $user->id])->get();
+            // $events = Event::where(['type_id',$type_id) && ('user_id',$user->id)])->get();
+             return response()->json([
+                 'data' => EventResource::collection($events),
+                 'message' => 'Successfully returned all events by type',
+             ]);
         }
+        else{
         $events = Event::all();
         
-        return new EventCollection($events);
+        return response()->json(['data' =>new EventCollection($events)]);}
     }
 
     /**
@@ -67,7 +71,7 @@ class EventController extends Controller
             'type_id'=> $request->type_id
         ]);
 
-        return response()->json(['Event is created successfully.',new EventResource($event)]);
+        return response()->json(['message ' =>'Event is created successfully.','data'=>new EventResource($event)]);
     }
 
     /**
@@ -139,9 +143,11 @@ class EventController extends Controller
     }
 
 
-    public function getEventsByType($type_id)
+    public function getEventsByType(Request $request , $type_id)
     {
-        $events = Event::where('type_id',$type_id)->get();
+        $user = $request->user();
+        $events = Event::where(['type_id' => $type_id, 'user_id' => $user->id])->get();
+       // $events = Event::where(['type_id',$type_id) && ('user_id',$user->id)])->get();
         return response()->json([
             'data' => EventResource::collection($events),
             'message' => 'Successfully returned all events by type',
