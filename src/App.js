@@ -5,36 +5,46 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Start from "./pages/Start";
 import Login from "./components/Login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "./components/NavBar";
 import { Container } from "react-bootstrap";
 import Register from "./components/Register";
 import Contact from "./pages/Contact";
 import Account from "./pages/Account";
+import axios from "axios";
+import axiosInstanca from "./components/axiosInstance";
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [useriZaLogovanje, setUseriZaLogovanje] = useState([
-    {
-      email: "marta@gmail.com",
-      password: "Marta123",
-    },
-    {
-      email: "marko@gmail.com",
-      password: "Marko123",
-    },
-  ]);
+  const [useriZaLogovanje, setUseriZaLogovanje] = useState([]);
 
   const login = (email, password) => {
-    let user = useriZaLogovanje.find((user) => user.email === email);
-    if (user && user.password === password) {
-      window.sessionStorage.setItem("email", email);
-      window.sessionStorage.setItem("username", user.username);
-      window.location.href = "/home";
-    } else {
-      alert("Pogresni podaci za logovanje");
-      window.location.href = "/login";
-    }
+    const loginPodaci = {
+      email: email,
+      password: password,
+    };
+    axios
+      .post("http://localhost:8000/api/login", loginPodaci)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success === true) {
+          window.sessionStorage.setItem("token", response.data.access_token);
+          window.sessionStorage.setItem("role", response.data.role);
+          window.sessionStorage.setItem("id", response.data.id);
+          window.sessionStorage.setItem("username", response.data.username);
+          window.sessionStorage.setItem("email", response.data.email);
+
+          setLoggedIn(true);
+          window.location.href = "/home";
+          //setLoginError(null);
+        }
+      })
+      .catch((error) => {
+        console.error("Došlo je do greške!", error);
+        //setLoginError("Pogrešan email ili lozinka.");
+        alert("Pogresni podaci za logovanje");
+        window.location.href = "/login";
+      });
   };
 
   const logout = () => {
@@ -42,12 +52,38 @@ function App(props) {
     setLoggedIn(false);
     window.sessionStorage.removeItem("email");
     window.sessionStorage.removeItem("username");
+    window.sessionStorage.removeItem("token");
+    window.sessionStorage.removeItem("role");
+    window.sessionStorage.removeItem("id");
+
     window.location.href = "/";
   };
-  const register = (email, password) => {
-    useriZaLogovanje.push({ email: email, password: password });
+  const register = (username, email, password) => {
+    const loginPodaci = {
+      username: username,
+      email: email,
+      password: password,
+    };
+    axios
+      .post("http://localhost:8000/api/register", loginPodaci)
+      .then((response) => {
+        console.log(response.data);
 
-    login(email, password);
+        window.sessionStorage.setItem("token", response.data.access_token);
+        window.sessionStorage.setItem("role", response.data.user.role);
+        window.sessionStorage.setItem("id", response.data.user.id);
+        window.sessionStorage.setItem("username", response.data.user.username);
+        window.sessionStorage.setItem("email", response.data.user.email);
+
+        setLoggedIn(true);
+        window.location.href = "/home";
+      })
+      .catch((error) => {
+        console.error("Došlo je do greške!", error);
+        //setLoginError("Pogrešan email ili lozinka.");
+        alert("Pogresni podaci za logovanje");
+        window.location.href = "/register";
+      });
   };
 
   return (

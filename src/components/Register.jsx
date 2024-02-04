@@ -44,7 +44,7 @@ const Register = (props) => {
       return;
     }
 
-    props.register(email, password);
+    props.register(username, email, password);
     navigate("/home");
   };
 

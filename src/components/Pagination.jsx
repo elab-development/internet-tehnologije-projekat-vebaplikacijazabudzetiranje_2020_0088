@@ -4,6 +4,12 @@ import ReactPaginate from "react-paginate";
 import CardEvent from "./CardEvent";
 import { Col, Row } from "react-bootstrap";
 
+import foodAndDrink from "../pages/food.jpeg";
+import transport from "../pages/transport.jpeg";
+import uncat from "../pages/uncategorized.jpeg";
+import lugg from "../pages/lugg.jpeg";
+import entertainment from "../pages/entertainment.jpeg";
+
 function Pagination(props) {
   const { data } = props;
   const [itemOffset, setItemOffset] = useState(0);
@@ -14,16 +20,31 @@ function Pagination(props) {
   const itemsPerPage = 3;
 
   useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(data.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(data.length / itemsPerPage));
+    if (data) {
+      const endOffset = itemOffset + itemsPerPage;
+      setCurrentItems(data.slice(itemOffset, endOffset));
+      setPageCount(Math.ceil(data.length / itemsPerPage));
+    }
   }, [itemOffset, itemsPerPage, data]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % data.length;
     setItemOffset(newOffset);
   };
-
+  const returnImage = (value) => {
+    switch (value) {
+      case "Travel":
+        return lugg;
+      case "Transportation":
+        return transport;
+      case "Entertainment":
+        return entertainment;
+      case "Food and drink":
+        return foodAndDrink;
+      default:
+        return uncat;
+    }
+  };
   return (
     <>
       <Row>
@@ -31,12 +52,12 @@ function Pagination(props) {
           return (
             <Col>
               <CardEvent
-                type={event.type}
+                type={event.type.name}
                 name={event.name}
-                email={event.email}
+                email={event.user.email}
                 amount={event.amount}
-                date={event.date}
-                image={event.image}
+                date={event.eventDate}
+                image={returnImage(event.type.name)}
               ></CardEvent>
             </Col>
           );

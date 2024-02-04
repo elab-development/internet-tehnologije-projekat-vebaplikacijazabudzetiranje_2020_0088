@@ -24,7 +24,7 @@ const Login = (props) => {
     } else if ("" === password) {
       setPasswordError("Please enter a password");
       return;
-    } else if (password.length < 7) {
+    } else if (password.length < 2) {
       setPasswordError("The password must be 8 characters or longer");
       return;
     } else {

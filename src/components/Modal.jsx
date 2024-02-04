@@ -11,6 +11,8 @@ function Modal({ saveEvent, setOpenModal }) {
   const [amount, setAmount] = useState("");
   const [participantEmail, setParticipantEmail] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptionId, setSelectedOptionId] = useState(0);
+
   const [validator, setValidator] = useState(true);
 
   return (
@@ -65,6 +67,8 @@ function Modal({ saveEvent, setOpenModal }) {
               <Dropdown
                 setSelectedOption={setSelectedOption}
                 selectedOption={selectedOption}
+                setSelectedOptionId={setSelectedOptionId}
+                selectedOptionId={selectedOptionId}
               />
             </Col>
             <Col>
@@ -105,6 +109,7 @@ function Modal({ saveEvent, setOpenModal }) {
                   participantEmail,
                   amount,
                   selectedOption,
+                  selectedOptionId,
                   date
                 );
                 setOpenModal(false);

@@ -1,19 +1,24 @@
 import Modal from "../components/Modal";
 import "../App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Table } from "react-bootstrap";
+import axios from "axios";
 const Home = () => {
+  let token = window.sessionStorage.getItem("token");
   const [modalOpen, setModalOpen] = useState(false);
   const [events, setEvents] = useState(
     JSON.parse(window.sessionStorage.getItem("events")) || []
   );
 
-  const saveEvent = (name, email, amount, type, date) => {
+  const [b, setb] = useState(false);
+
+  const saveEvent = async (name, email, amount, type, type_id, date) => {
     const data = {
       name: name,
       email: email,
       amount: amount,
       type: type,
+      type_id: type_id,
       date: date.toLocaleDateString("en-us", {
         weekday: "long",
         year: "numeric",
@@ -21,6 +26,43 @@ const Home = () => {
         day: "numeric",
       }),
     };
+    const response = await axios.post(
+      "http://localhost:8000/api/events",
+
+      { name, amount, type_id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data);
+    const responseParticipant = await axios.get(
+      `http://localhost:8000/api/user?email= ${email} `
+
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
+    );
+    console.log(responseParticipant.data);
+
+    const event_id = response.data.data.id;
+    const user_id = responseParticipant.data.data.id;
+    // console.log(idevent);
+    // console.log(iduser);
+    const responseStoreParticipant = await axios.post(
+      "http://localhost:8000/api/event-participants",
+
+      { user_id, event_id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(responseStoreParticipant.data);
 
     const events = window.sessionStorage.getItem("events");
     let parsedEvents = JSON.parse(events);
@@ -35,6 +77,21 @@ const Home = () => {
 
     setEvents(parsedEvents);
   };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/events",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //       data
+  //     );
+  //     console.log(response.data.data);
+  //   };
+  //   fetchData();
+  // }, [b]);
 
   return (
     <div className="font">

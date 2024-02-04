@@ -6,93 +6,26 @@ import { Row, Col } from "react-bootstrap";
 import Pagination from "../components/Pagination";
 import fetch from "cross-fetch";
 import profile from "./id_9470706.png";
-import foodAndDrink from "./food.jpeg";
-import transport from "./transport.jpeg";
-import uncat from "./uncategorized.jpeg";
-import lugg from "./lugg.jpeg";
-import entertainment from "./entertainment.jpeg";
+import axios from "axios";
 
 function Account(props) {
-  const returnImage = (value) => {
-    switch (value) {
-      case "Travel":
-        return lugg;
-      case "Transportation":
-        return transport;
-      case "Entertainment":
-        return entertainment;
-      case "Food and Drink":
-        return foodAndDrink;
-      default:
-        return <img src={uncat} alt="Uncategorized image" />;
-    }
-  };
-  const saveEvents = [
-    {
-      name: "Coffee",
-      email: "marko@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image: returnImage("Food and Drink"),
-    },
-    {
-      name: "Taxi",
-      email: "marko@gmail.com",
-      amount: 1000,
-      type: "Transportation",
-      date: "30/01/2024",
-      image: returnImage("Transportation"),
-    },
-    {
-      name: "Picado",
-      email: "luka@gmail.com",
-      amount: 370,
-      type: "Entertainment",
-      date: "15/01/2024",
-      image: returnImage("Entertainment"),
-    },
-    {
-      name: "Lunch",
-      email: "mila@gmail.com",
-      amount: 3000,
-      type: "Food and Drink",
-      date: "23/01/2024",
-      image: returnImage("Food and Drink"),
-    },
-    {
-      name: "Coffee with sister",
-      email: "sara@gmail.com",
-      amount: 500,
-      type: "Food and Drink",
-      date: "30/01/2024",
-      image: returnImage("Food and Drink"),
-    },
-    {
-      name: "Barselona",
-      email: "lazar@gmail.com",
-      amount: 50000,
-      type: "Travel",
-      date: "30/01/2024",
-      image: returnImage("Travel"),
-    },
-    {
-      name: "Billiards",
-      email: "ognjen@gmail.com",
-      amount: 500,
-      type: "Entertainment",
-      date: "30/01/2024",
-      image: returnImage("Entertainment"),
-    },
-    {
-      name: "Dentist",
-      email: "mila@gmail.com",
-      amount: 80000,
-      type: "Uncategorized",
-      date: "18/12/2023",
-      image: uncat,
-    },
-  ];
+  const [searchResults, setSearchResults] = useState([]);
+  const [saveEvents, setSaveEvents] = useState([]);
+  let token = window.sessionStorage.getItem("token");
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("http://localhost:8000/api/events", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+
+      setSaveEvents(response.data.data);
+      setSearchResults(response.data.data);
+    };
+    fetchData();
+  }, []);
 
   const [phoneNumber, setPhoneNumber] = useState("");
   useEffect(() => {
@@ -112,15 +45,26 @@ function Account(props) {
     }
   };
 
-  const [searchResults, setSearchResults] = useState(saveEvents);
   const handleSearch = (query) => {
     const pretraga = saveEvents.filter((item) => {
-      return item.type.toLowerCase().includes(query.toLowerCase());
+      return item.type.name.toLowerCase().includes(query.toLowerCase());
     });
-
     setSearchResults(pretraga);
   };
-
+  // const handleSearch = (query) => {
+  //   const fetchData = async () => {
+  //     const response = await axios.get(
+  //       "http://localhost:8000/api/event-paginate?per_page=3",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(response.data);
+  //   };
+  //   fetchData();
+  // };
   return (
     <div>
       <Row>
