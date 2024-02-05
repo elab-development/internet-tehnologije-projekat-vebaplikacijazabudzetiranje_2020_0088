@@ -13,10 +13,17 @@ const Home = () => {
   const [b, setb] = useState(false);
 
   const saveEvent = async (name, email, amount, type, type_id, date) => {
+    const pararr = email.split(";");
+    {
+      pararr.map((x) => console.log(x));
+    }
+    const debt = amount / (pararr.length + 1);
+    console.log(debt);
     const data = {
       name: name,
       email: email,
       amount: amount,
+      debt: debt,
       type: type,
       type_id: type_id,
       date: date.toLocaleDateString("en-us", {
@@ -37,32 +44,36 @@ const Home = () => {
       }
     );
     console.log(response.data);
-    const responseParticipant = await axios.get(
-      `http://localhost:8000/api/user?email= ${email} `
-
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // }
-    );
-    console.log(responseParticipant.data);
 
     const event_id = response.data.data.id;
-    const user_id = responseParticipant.data.data.id;
-    // console.log(idevent);
-    // console.log(iduser);
-    const responseStoreParticipant = await axios.post(
-      "http://localhost:8000/api/event-participants",
+    async function sendGetRequest(data) {
+      const responseParticipant = await axios.get(
+        `http://localhost:8000/api/user?email= ${data} `
+      );
 
-      { user_id, event_id },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const user_id = responseParticipant.data.data.id;
+
+      const responseStoreParticipant = await axios.post(
+        "http://localhost:8000/api/event-participants",
+
+        { user_id, event_id, debt },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(responseParticipant.data.data.id);
+    }
+
+    async function sendGetRequestForArray() {
+      for (const data of pararr) {
+        await sendGetRequest(data);
       }
-    );
-    console.log(responseStoreParticipant.data);
+    }
+
+    sendGetRequestForArray();
+    // console.log(responseParticipant.data);
 
     const events = window.sessionStorage.getItem("events");
     let parsedEvents = JSON.parse(events);
@@ -119,6 +130,7 @@ const Home = () => {
               <th>Name</th>
               <th>Participant</th>
               <th>Amount</th>
+              <th>Debt</th>
               <th>Type</th>
               <th>Date</th>
             </tr>
@@ -130,6 +142,7 @@ const Home = () => {
                   <td>{event.name}</td>
                   <td>{event.email}</td>
                   <td>{event.amount}</td>
+                  <td>{event.debt}</td>
                   <td>{event.type}</td>
                   <td>{event.date}</td>
                 </tr>
