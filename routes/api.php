@@ -29,6 +29,7 @@ Route::post('/login',[AuthController::class,'login']);
 Route::get('/user',[UserController::class,'show']);
 
 
+
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
     Route::resource('event-participants', EventParticipantController::class);
@@ -37,6 +38,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::get('/filter-events',[EventController::class,'filterEvents']);
     Route::get('/type_events',[TypeEventController::class,'index']);
     Route::post('/logout',[AuthController::class,'logout']);
+    Route::put('/user/{id}',[UserController::class,'update']);
     
 
     Route::resource('events', EventController::class);

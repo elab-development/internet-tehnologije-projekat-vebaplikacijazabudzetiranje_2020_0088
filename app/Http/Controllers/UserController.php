@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -82,6 +83,20 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        $user = $request->user();
+        
+        $validator = Validator::make($request->all(),[
+            'username'=> 'required|string|max:255',
+        ]);
+        
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+
+        $user->username=$request->username;
+        $user->save();
+
+        return response()->json(['data'=>new UserResource($user)]);
 
     }
 

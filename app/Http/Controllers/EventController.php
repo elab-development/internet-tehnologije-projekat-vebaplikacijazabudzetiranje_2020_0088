@@ -169,6 +169,21 @@ class EventController extends Controller
             'message' => 'Successfully returned all events',
         ]);
     }
+    //  public function paginateEvents(Request $request)
+    // {
+    //     $user = $request->user();
+        
+    //     if($user->role != 'admin'){
+    //         return response()->json([
+    //             'message' => 'Nemate pristup ovoj ruti',
+    //         ]);
+    //     }
+    //     $events = Event::paginate($request->per_page);
+    //     return response()->json([
+    //         'data' => $events,
+    //         'evRes'=> EventResource::collection($events)
+    //     ]);
+    // }
     public function filterEvents(Request $request)
     {
         $dateFrom = $request->dateFrom;

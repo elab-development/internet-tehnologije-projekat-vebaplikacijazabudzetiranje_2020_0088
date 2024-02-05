@@ -23,6 +23,8 @@ class EventParticipantResource extends JsonResource
             'id' => $this->id,
             'event' => new EventResource($event),
             'user' => new UserResource($user),
+            'debt'=> $this->debt
+
         ];
         return parent::toArray($request);
     }

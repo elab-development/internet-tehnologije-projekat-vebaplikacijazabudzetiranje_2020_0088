@@ -41,6 +41,7 @@ class EventParticipantController extends Controller
         $validator = Validator::make($request->all(),[
             'user_id'=> 'required',
             'event_id'=>'required',
+            'debt'=>'required'
         ]);
         
         if($validator->fails()){
@@ -53,6 +54,7 @@ class EventParticipantController extends Controller
         $eventParticipant = EventParticipant::create([
             'user_id'=> $request->user_id,
             'event_id'=> $request->event_id,
+            'debt'=>$request->debt
         ]);
         
         return response()->json([
