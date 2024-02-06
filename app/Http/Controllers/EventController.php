@@ -146,8 +146,15 @@ class EventController extends Controller
     public function getEventsByType(Request $request , $type_id)
     {
         $user = $request->user();
-        $events = Event::where(['type_id' => $type_id, 'user_id' => $user->id])->get();
-       // $events = Event::where(['type_id',$type_id) && ('user_id',$user->id)])->get();
+        if($user->role != 'admin'){
+            $events = Event::where(['type_id' => $type_id, 'user_id' => $user->id])->get();
+            return response()->json([
+                'data' => EventResource::collection($events),
+                'message' => 'Successfully returned all events by type',   
+            ]);
+        }
+        
+        $events = Event::where(['type_id' => $type_id])->get();
         return response()->json([
             'data' => EventResource::collection($events),
             'message' => 'Successfully returned all events by type',
