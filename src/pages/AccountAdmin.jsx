@@ -23,6 +23,7 @@ function AccountAdmin(props) {
   const [trenutniZahtevi, setTrenutniZahtevi] = useState([]);
   const [typeEvents, setTypeEvents] = useState([]);
   const [eventsByType, setEventsByType] = useState(null);
+  const [iden, setIden] = useState(-1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,34 +110,57 @@ function AccountAdmin(props) {
     }
   };
 
-  var id = -1;
   const handleSearch = (query) => {
     if (query != "") {
       const pretraga = typeEvents.filter((item) => {
         return item.name.toLowerCase() === query.toLowerCase();
       });
 
-      id = pretraga[0].id;
+      if (pretraga.length == 0) {
+        alert("Please enter full type name.");
+      } else {
+        const id = pretraga[0].id;
 
-      console.log("lol", id);
+        setIden(id);
+        console.log("lol", id);
 
-      axios
-        .get(`http://localhost:8000/api/event-by-type/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setEventsByType(res.data.data);
-          console.log("svi: ", res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        axios
+          .get(`http://localhost:8000/api/event-by-type/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            setEventsByType(res.data.data);
+            console.log("svi: ", res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     } else {
       setEventsByType(null);
       filtrirajZahteve();
     }
+  };
+
+  const handleSort = (sortOrder) => {
+    axios
+      .get(
+        `http://localhost:8000/api/event-by-type/${iden}?sort_direction=${sortOrder}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setEventsByType(res.data.data);
+        //console.log("sortirani po: ", res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // const handleSearch = (query) => {
@@ -183,7 +207,7 @@ function AccountAdmin(props) {
         <Col></Col>
       </Row>
       <br />
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={handleSearch} onSort={handleSort} />
 
       <br />
       <PaginationExample

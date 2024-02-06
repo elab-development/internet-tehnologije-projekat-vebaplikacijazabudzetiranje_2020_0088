@@ -116,7 +116,11 @@ function App(props) {
             />
             <Route
               path="/accountAdmin"
-              element={<AccountAdmin></AccountAdmin>}
+              element={
+                <AccountAdmin
+                  email={window.sessionStorage.getItem("email")}
+                ></AccountAdmin>
+              }
             />
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />

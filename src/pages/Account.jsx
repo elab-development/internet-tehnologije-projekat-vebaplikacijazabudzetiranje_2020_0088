@@ -13,11 +13,10 @@ import uncat from "../pages/uncategorized.jpeg";
 import lugg from "../pages/lugg.jpeg";
 import entertainment from "../pages/entertainment.jpeg";
 import CardEvent from "../components/CardEvent";
+import MyButton from "../components/MyButton";
 
 function Account(props) {
-  //const [searchResults, setSearchResults] = useState([]);
-  // const [saveEvents, setSaveEvents] = useState([]);
-
+  const [iden, setIden] = useState(-1);
   let token = window.sessionStorage.getItem("token");
 
   const [typeEvents, setTypeEvents] = useState([]);
@@ -72,33 +71,90 @@ function Account(props) {
     }
   };
 
-  var id = -1;
   const handleSearch = (query) => {
     if (query != "") {
       const pretraga = typeEvents.filter((item) => {
         return item.name.toLowerCase() === query.toLowerCase();
       });
 
-      id = pretraga[0].id;
+      if (pretraga.length == 0) {
+        alert("Please enter full type name.");
+      } else {
+        const id = pretraga[0].id;
 
-      console.log("lol", id);
+        setIden(id);
 
-      axios
-        .get(`http://localhost:8000/api/event-by-type/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setEventsByType(res.data.data);
-          console.log("svi: ", res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        axios
+          .get(`http://localhost:8000/api/event-by-type/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            setEventsByType(res.data.data);
+            console.log("svi: ", res.data.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     } else {
       setEventsByType([]);
     }
+  };
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    let day = date.getDate();
+    if (day < 10) {
+      day = `0${day}`;
+    }
+    return `${year}-${month}-${day}`;
+  };
+
+  const filterEvents = (dateFrom, dateTo) => {
+    const formattedDateFrom = formatDate(new Date(dateFrom));
+    const formattedDateTo = formatDate(new Date(dateTo));
+    const userId = window.sessionStorage.getItem("id");
+    axios
+      .get(
+        `http://localhost:8000/api/filter-events?dateFrom=${formattedDateFrom}&dateTo=${formattedDateTo}&type_id=${iden}&user_id=${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setEventsByType(res.data.data);
+        console.log("filtrirani po datumu: ", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSort = (sortOrder) => {
+    axios
+      .get(
+        `http://localhost:8000/api/event-by-type/${iden}?sort_direction=${sortOrder}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setEventsByType(res.data.data);
+        //console.log("sortirani po: ", res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -131,7 +187,13 @@ function Account(props) {
         <Col></Col>
       </Row>
       <br />
-      <SearchBar onSearch={handleSearch} />
+      <Row>
+        <SearchBar
+          onFilter={filterEvents}
+          onSearch={handleSearch}
+          onSort={handleSort}
+        />
+      </Row>
 
       <Row>
         {eventsByType.map((item) => {

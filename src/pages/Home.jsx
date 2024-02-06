@@ -51,6 +51,7 @@ const Home = () => {
         `http://localhost:8000/api/user?email= ${data} `
       );
 
+      // console.log(responseParticipant.data);
       const user_id = responseParticipant.data.data.id;
 
       const responseStoreParticipant = await axios.post(
@@ -73,7 +74,6 @@ const Home = () => {
     }
 
     sendGetRequestForArray();
-    // console.log(responseParticipant.data);
 
     const events = window.sessionStorage.getItem("events");
     let parsedEvents = JSON.parse(events);
