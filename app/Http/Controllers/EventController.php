@@ -162,6 +162,17 @@ class EventController extends Controller
               ],200);
             
         }
+        $events = DB::table('events as e')
+        ->where('e.type_id', $type_id)
+        ->orderBy('e.amount', $sortDirection)
+        ->get();
+        return response()->json([
+       
+            'data' => EventResource::collection($events),
+            'message' => 'Successfully returned all events by type',
+          ],200);
+
+
     }
 
     public function paginateEvents(Request $request)
