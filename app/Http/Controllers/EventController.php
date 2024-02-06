@@ -174,6 +174,26 @@ class EventController extends Controller
 
 
     }
+    public function eventsByTypeChart(Request $request)
+    {
+        $user = $request->user();
+        if($user->role == 'admin'){  
+        $events = DB::table('events as e')
+            ->select(DB::raw('te.name, COUNT(*) as numberOfEvents'))
+            ->join('type_events as te', 'e.type_id', '=', 'te.id')
+            ->groupBy('te.name')
+            ->get();
+
+        return response()->json([
+            'poruka' => 'Uspesno ucitani eventovi',
+            'podaci' => $events,
+        ], 200);}
+        else{
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
+    }
 
     public function paginateEvents(Request $request)
     {
@@ -190,21 +210,7 @@ class EventController extends Controller
             'message' => 'Successfully returned all events',
         ]);
     }
-    //  public function paginateEvents(Request $request)
-    // {
-    //     $user = $request->user();
-        
-    //     if($user->role != 'admin'){
-    //         return response()->json([
-    //             'message' => 'Nemate pristup ovoj ruti',
-    //         ]);
-    //     }
-    //     $events = Event::paginate($request->per_page);
-    //     return response()->json([
-    //         'data' => $events,
-    //         'evRes'=> EventResource::collection($events)
-    //     ]);
-    // }
+    
     public function filterEvents(Request $request)
     {
         $dateFrom = $request->dateFrom;
