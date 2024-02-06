@@ -12,16 +12,17 @@ import transport from "../pages/transport.jpeg";
 import uncat from "../pages/uncategorized.jpeg";
 import lugg from "../pages/lugg.jpeg";
 import entertainment from "../pages/entertainment.jpeg";
-import CardEvent from "../components/CardEvent";
 
-function Account(props) {
+function AccountAdmin(props) {
   //const [searchResults, setSearchResults] = useState([]);
   // const [saveEvents, setSaveEvents] = useState([]);
 
   let token = window.sessionStorage.getItem("token");
-
+  const zahteviPoStranici = 3;
+  const [trenutnaStranica, setTrenutnaStranica] = useState(1);
+  const [trenutniZahtevi, setTrenutniZahtevi] = useState([]);
   const [typeEvents, setTypeEvents] = useState([]);
-  const [eventsByType, setEventsByType] = useState([]);
+  const [eventsByType, setEventsByType] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,42 @@ function Account(props) {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    filtrirajZahteve();
+  }, [trenutnaStranica]);
+
+  function filtrirajZahteve() {
+    axios
+      .get(
+        "http://localhost:8000/api/event-paginate?page=" +
+          trenutnaStranica +
+          "&per_page=" +
+          zahteviPoStranici,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setTrenutniZahtevi(res.data.data);
+        console.log("Podaci: ", res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const povecajStranicu = () => {
+    setTrenutnaStranica(trenutnaStranica + 1);
+    filtrirajZahteve();
+  };
+
+  const smanjiStranicu = () => {
+    setTrenutnaStranica(trenutnaStranica - 1);
+    filtrirajZahteve();
+  };
 
   const returnImage = (value) => {
     switch (value) {
@@ -97,10 +134,25 @@ function Account(props) {
           console.log(err);
         });
     } else {
-      setEventsByType([]);
+      setEventsByType(null);
+      filtrirajZahteve();
     }
   };
 
+  // const handleSearch = (query) => {
+  //   const fetchData = async () => {
+  //     const response = await axios.get(
+  //       "http://localhost:8000/api/event-paginate?per_page=3",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(response.data);
+  //   };
+  //   fetchData();
+  // };
   return (
     <div>
       <Row>
@@ -133,25 +185,17 @@ function Account(props) {
       <br />
       <SearchBar onSearch={handleSearch} />
 
-      <Row>
-        {eventsByType.map((item) => {
-          return (
-            <Col>
-              <CardEvent
-                type={item.type.name}
-                name={item.name}
-                email={item.user.email}
-                amount={item.amount}
-                date={item.eventDate}
-                image={returnImage(item.type.name)}
-              ></CardEvent>
-            </Col>
-          );
-        })}
-      </Row>
       <br />
+      <PaginationExample
+        eventsByType={eventsByType}
+        trenutniZahtevi={trenutniZahtevi}
+        smanjiStranicu={smanjiStranicu}
+        povecajStranicu={povecajStranicu}
+        returnImage={returnImage}
+        trenutnaStranica={trenutnaStranica}
+      ></PaginationExample>
     </div>
   );
 }
 
-export default Account;
+export default AccountAdmin;

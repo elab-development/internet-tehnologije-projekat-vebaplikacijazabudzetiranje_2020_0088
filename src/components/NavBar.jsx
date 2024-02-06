@@ -38,11 +38,18 @@ function NavBar({ username, logout, onButtonSearch }) {
                 title={username}
                 id="basic-nav-dropdown"
               >
-                {isLogged && (
-                  <NavDropdown.Item href="/account">
-                    Your account
-                  </NavDropdown.Item>
-                )}
+                {isLogged &&
+                  window.sessionStorage.getItem("role") !== "admin" && (
+                    <NavDropdown.Item href="/account">
+                      Your account
+                    </NavDropdown.Item>
+                  )}
+                {isLogged &&
+                  window.sessionStorage.getItem("role") === "admin" && (
+                    <NavDropdown.Item href="/accountAdmin">
+                      Your account
+                    </NavDropdown.Item>
+                  )}
                 {isLogged && (
                   <NavDropdown.Item href="/contact">
                     Contact support

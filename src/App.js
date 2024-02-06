@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Account from "./pages/Account";
 import axios from "axios";
 import axiosInstanca from "./components/axiosInstance";
+import AccountAdmin from "./pages/AccountAdmin";
 
 function App(props) {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -112,6 +113,10 @@ function App(props) {
               element={
                 <Account email={window.sessionStorage.getItem("email")} />
               }
+            />
+            <Route
+              path="/accountAdmin"
+              element={<AccountAdmin></AccountAdmin>}
             />
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
