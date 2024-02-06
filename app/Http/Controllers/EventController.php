@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+
 class EventController extends Controller
 {
     //
@@ -145,20 +145,23 @@ class EventController extends Controller
 
     public function getEventsByType(Request $request , $type_id)
     {
+        $sortDirection = $request->input('sort_direction', 'desc');
         $user = $request->user();
         if($user->role != 'admin'){
-            $events = Event::where(['type_id' => $type_id, 'user_id' => $user->id])->get();
+           
+
+            $events = DB::table('events as e')
+            ->where('e.type_id', $type_id)
+            ->where('e.user_id', $user->id)
+            ->orderBy('e.amount', $sortDirection)
+            ->get();
             return response()->json([
+           
                 'data' => EventResource::collection($events),
-                'message' => 'Successfully returned all events by type',   
-            ]);
+                'message' => 'Successfully returned all events by type',
+              ],200);
+            
         }
-        
-        $events = Event::where(['type_id' => $type_id])->get();
-        return response()->json([
-            'data' => EventResource::collection($events),
-            'message' => 'Successfully returned all events by type',
-        ]);
     }
 
     public function paginateEvents(Request $request)
@@ -195,9 +198,13 @@ class EventController extends Controller
     {
         $dateFrom = $request->dateFrom;
         $dateTo = $request->dateTo;
+        $type_id=$request->type_id;
+        $user_id=$request->user_id;
 
         $events = Event::where('eventDate', '>=', $dateFrom)
             ->where('eventDate', '<=', $dateTo)
+            ->where('type_id',$type_id)
+            ->where('user_id',$user_id)
             ->get();
         return response()->json([
             'data' => EventResource::collection($events),
