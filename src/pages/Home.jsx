@@ -3,14 +3,41 @@ import "../App.css";
 import React, { useState, useEffect } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
+import { Chart } from "react-google-charts";
+import { CSVLink } from "react-csv";
 const Home = () => {
   let token = window.sessionStorage.getItem("token");
+  const role = window.sessionStorage.getItem("role");
   const [modalOpen, setModalOpen] = useState(false);
   const [events, setEvents] = useState(
     JSON.parse(window.sessionStorage.getItem("events")) || []
   );
+  const [chartData, setChartData] = useState([]);
 
-  const [b, setb] = useState(false);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/event-by-type-chart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        let niz = [];
+        niz.push(["Event type", "Number of events"]);
+
+        for (let i = 0; i < res.data.podaci.length; i++) {
+          niz.push([
+            res.data.podaci[i].name,
+            res.data.podaci[i].numberOfEvents,
+          ]);
+        }
+
+        setChartData(niz);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const saveEvent = async (name, email, amount, type, type_id, date) => {
     const pararr = email.split(";");
@@ -88,21 +115,6 @@ const Home = () => {
 
     setEvents(parsedEvents);
   };
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await axios.post(
-  //       "http://localhost:8000/api/events",
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //       data
-  //     );
-  //     console.log(response.data.data);
-  //   };
-  //   fetchData();
-  // }, [b]);
 
   return (
     <div className="font">
@@ -160,6 +172,23 @@ const Home = () => {
           value={"Add event"}
         ></input>
       </Row>
+      {role === "user" ? null : (
+        <Row className="mt-3">
+          <Chart
+            chartType="PieChart"
+            data={chartData}
+            width="100%"
+            height="400px"
+            legendToggle
+            options={{
+              enableInteractivity: false,
+            }}
+          />
+          <CSVLink filename="ChartData" data={chartData}>
+            Download chart data
+          </CSVLink>
+        </Row>
+      )}
       <br />
       {modalOpen && <Modal saveEvent={saveEvent} setOpenModal={setModalOpen} />}
     </div>

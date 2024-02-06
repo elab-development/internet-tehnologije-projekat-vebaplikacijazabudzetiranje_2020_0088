@@ -43,7 +43,7 @@ const SearchBar = ({ onFilter, onSearch, onSort }) => {
         onClick={handleSearch}
       ></input>
 
-      {role === "admin" ? null : (
+      {role === "admin" || query === "" ? null : (
         <>
           <DatePicker
             selected={dateFrom}
@@ -64,20 +64,24 @@ const SearchBar = ({ onFilter, onSearch, onSort }) => {
           ></input>
         </>
       )}
-      <input
-        type="button"
-        className="font"
-        style={{ fontSize: 20, width: 150 }}
-        value={"Desc"}
-        onClick={() => setSortOrder("desc")}
-      ></input>
-      <input
-        type="button"
-        className="font"
-        style={{ fontSize: 20, width: 150 }}
-        value={"Asc"}
-        onClick={() => setSortOrder("asc")}
-      ></input>
+      {query === "" ? null : (
+        <>
+          <input
+            type="button"
+            className="font"
+            style={{ fontSize: 20, width: 150 }}
+            value={"Desc"}
+            onClick={() => setSortOrder("desc")}
+          ></input>
+          <input
+            type="button"
+            className="font"
+            style={{ fontSize: 20, width: 150 }}
+            value={"Asc"}
+            onClick={() => setSortOrder("asc")}
+          ></input>
+        </>
+      )}
     </div>
   );
 };
