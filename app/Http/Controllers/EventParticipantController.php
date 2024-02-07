@@ -39,8 +39,8 @@ class EventParticipantController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'user_id'=> 'required',
-            'event_id'=>'required',
+            'user_id'=> 'required|numeric',
+            'event_id'=>'required|numeric',
             'debt'=>'required'
         ]);
         
@@ -68,8 +68,8 @@ class EventParticipantController extends Controller
     public function update(Request $request, EventParticipant $eventParticipant)
     {
         $validator = Validator::make($request->all(),[
-            'user_id'=> 'required',
-            'event_id'=>'required',
+            'user_id'=> 'required|numeric',
+            'event_id'=>'required|numeric',
         ]);
         
         if($validator->fails()){

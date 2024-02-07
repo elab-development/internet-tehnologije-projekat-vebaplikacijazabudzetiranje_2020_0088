@@ -47,18 +47,7 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show($user_id)
-    // {
-    //     $user = User::find($user_id);
-    //     if(is_null($user)){
-    //               return response()->json('data not found',404);
-    //             }
-    //     return response()->json($user);
-        
-    // }
+
     public function show(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -110,10 +99,9 @@ class UserController extends Controller
         //
     }
 
-    public function sendEmail(Request $request)
+    public function sendEmail()
     {
-        $message=$request->input('message');
-        Mail::to('arsic2001sofija@gmail.com')->send(new SendGridTestEmail($message));
+        Mail::to('arsic2001sofija@gmail.com')->send(new SendGridTestEmail());
 
         return "Email sent successfully!";
     }

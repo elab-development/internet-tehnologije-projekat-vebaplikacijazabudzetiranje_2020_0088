@@ -14,15 +14,15 @@ class SendGridTestEmail extends Mailable
 
     use Queueable, SerializesModels;
     
-    protected $message;
+    
 
     /**
      * Create a new message instance.
      */
-    public function __construct($message)
+    public function __construct()
     {
         
-            $this->message = $message;
+            
         
     }
 

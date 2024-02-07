@@ -43,8 +43,6 @@ class AuthController extends Controller
             return response()->json(['success'=>false,'message'=>'Unauthorized'],401);
         }
         $user=User::where('email',$request['email'])->firstOrFail();
-
-
         $token=$user->createToken('auth_token')->plainTextToken;
 
         return response()->json(['success'=>true,
@@ -52,10 +50,7 @@ class AuthController extends Controller
         'id'=>$user->id,
         'email'=>$user->email,
         'username'=>$user->username,
-        
-        'password'=>$user->password,
         'role'=>$user->role,
-        
         'access_token'=>$token,'token_type'=>'Bearer']);
     }
 

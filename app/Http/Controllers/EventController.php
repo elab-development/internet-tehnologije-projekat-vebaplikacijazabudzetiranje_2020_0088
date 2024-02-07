@@ -56,7 +56,7 @@ class EventController extends Controller
             'name'=> 'required|string|max:255',
             'amount'=>'required',
             
-            'type_id'=>'required'
+            'type_id'=>'required|numeric'
         ]);
         
         if($validator->fails()){
@@ -108,7 +108,7 @@ class EventController extends Controller
         $validator = Validator::make($request->all(),[
             'name'=> 'required|string|max:255',
             'amount'=>'required',
-            'type_id'=>'required'
+            'type_id'=>'required|numeric'
         ]);
         
         if($validator->fails()){
