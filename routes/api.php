@@ -27,8 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 Route::get('/user',[UserController::class,'show']);
-//Route::get('grafik', 'App\Http\Controllers\ZahtevController@zahteviPoUsluzi');
-
+Route::get('/send-email',[UserController::class,'sendEmail']);
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
 

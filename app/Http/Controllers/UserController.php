@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendGridTestEmail;
 
 class UserController extends Controller
 {
@@ -106,5 +108,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $message=$request->input('message');
+        Mail::to('arsic2001sofija@gmail.com')->send(new SendGridTestEmail($message));
+
+        return "Email sent successfully!";
     }
 }

@@ -1,0 +1,1 @@
+You've successfully registered! Enjoy splitting bills.
