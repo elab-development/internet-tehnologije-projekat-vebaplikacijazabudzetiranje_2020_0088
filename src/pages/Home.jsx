@@ -5,6 +5,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { Chart } from "react-google-charts";
 import { CSVLink } from "react-csv";
+import MyButton from "../components/MyButton";
 const Home = () => {
   let token = window.sessionStorage.getItem("token");
   const role = window.sessionStorage.getItem("role");
@@ -13,6 +14,7 @@ const Home = () => {
     JSON.parse(window.sessionStorage.getItem("events")) || []
   );
   const [chartData, setChartData] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
     axios
@@ -44,22 +46,7 @@ const Home = () => {
     {
       pararr.map((x) => console.log(x));
     }
-    const debt = amount / (pararr.length + 1);
-    console.log(debt);
-    const data = {
-      name: name,
-      email: email,
-      amount: amount,
-      debt: debt,
-      type: type,
-      type_id: type_id,
-      date: date.toLocaleDateString("en-us", {
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      }),
-    };
+
     const response = await axios.post(
       "http://localhost:8000/api/events",
 
@@ -73,6 +60,25 @@ const Home = () => {
     console.log(response.data);
 
     const event_id = response.data.data.id;
+
+    const debt = amount / (pararr.length + 1);
+    console.log(debt);
+    const data = {
+      event_id: event_id,
+      name: name,
+      email: email,
+      amount: amount,
+      debt: debt,
+      type: type,
+      type_id: type_id,
+      date: date.toLocaleDateString("en-us", {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }),
+    };
+
     async function sendGetRequest(data) {
       const responseParticipant = await axios.get(
         `http://localhost:8000/api/user?email= ${data} `
@@ -116,6 +122,96 @@ const Home = () => {
     setEvents(parsedEvents);
   };
 
+  // Handler funkcija za označavanje/odznačavanje reda
+  const toggleRow = (rowId) => {
+    if (selectedRows.includes(rowId)) {
+      setSelectedRows(selectedRows.filter((id) => id !== rowId));
+    } else {
+      setSelectedRows([...selectedRows, rowId]);
+    }
+  };
+
+  // async function sendGetRequest(data) {
+  //   axios
+  //     .delete(`http://localhost:8000/api/events/ ${data}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //     });
+  // }
+  // async function sendGetRequest(id) {
+  //   try {
+  //     const res = await axios.delete(`http://localhost:8000/api/events/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     const upArr = events.filter((item) => item.event_id !== id);
+  //     setEvents(upArr);
+
+  //     let parsedEvents = JSON.parse(events);
+
+  //     if (parsedEvents) {
+  //       window.sessionStorage.setItem("events", JSON.stringify(parsedEvents));
+  //     } else {
+  //       window.sessionStorage.setItem("events", JSON.stringify(parsedEvents));
+  //     }
+
+  //     setEvents(parsedEvents);
+
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.error("Greška prilikom brisanja:", error);
+  //   }
+  // }
+
+  async function sendGetRequest(id) {
+    try {
+      // Send DELETE request to delete the event with the specified id
+      const res = await axios.delete(`http://localhost:8000/api/events/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Retrieve events from sessionStorage
+      const eventsString = window.sessionStorage.getItem("events");
+      console.log("eventsString:", eventsString);
+
+      // Parse events string to JSON, handle the case where eventsString is null or undefined
+      const parsedEvents = eventsString ? JSON.parse(eventsString) : [];
+
+      // Filter out the deleted event from the parsed events
+      const updatedEvents = parsedEvents.filter((item) => item.event_id !== id);
+
+      // Update the events state with the filtered events
+      setEvents(updatedEvents);
+
+      // Store the updated events back to sessionStorage
+      window.sessionStorage.setItem("events", JSON.stringify(updatedEvents));
+
+      console.log(res);
+    } catch (error) {
+      console.error("Greška prilikom brisanja:", error);
+    }
+  }
+
+  async function sendGetRequestForArray() {
+    for (const data of selectedRows) {
+      console.log(data);
+      await sendGetRequest(data);
+    }
+  }
+
+  const deleteSelectedRows = () => {
+    sendGetRequestForArray();
+
+    setSelectedRows([]);
+  };
+
   return (
     <div className="font">
       <br />
@@ -145,18 +241,26 @@ const Home = () => {
               <th>Debt</th>
               <th>Type</th>
               <th>Date</th>
+              <th>Check</th>
             </tr>
           </thead>
           <tbody>
-            {events.map((event) => {
+            {events.map((event, index) => {
               return (
-                <tr>
+                <tr key={event.event_id}>
                   <td>{event.name}</td>
                   <td>{event.email}</td>
                   <td>{event.amount}</td>
                   <td>{event.debt}</td>
                   <td>{event.type}</td>
                   <td>{event.date}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(event.event_id)}
+                      onChange={() => toggleRow(event.event_id)}
+                    />
+                  </td>
                 </tr>
               );
             })}
@@ -164,13 +268,22 @@ const Home = () => {
         </Table>
       </Row>
       <Row>
-        <input
-          type="button"
-          onClick={() => {
-            setModalOpen(true);
-          }}
-          value={"Add event"}
-        ></input>
+        <Col>
+          <input
+            type="button"
+            onClick={() => {
+              setModalOpen(true);
+            }}
+            value={"Add event"}
+          ></input>
+        </Col>
+        <Col>
+          <input
+            type="button"
+            onClick={deleteSelectedRows}
+            value={"Delete"}
+          ></input>
+        </Col>
       </Row>
       {role === "user" ? null : (
         <Row className="mt-3">
