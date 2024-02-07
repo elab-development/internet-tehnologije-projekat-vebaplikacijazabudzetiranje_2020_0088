@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../App.css";
 import SearchBar from "../components/SearchBar";
 import { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import fetch from "cross-fetch";
 import profile from "./id_9470706.png";
 import axios from "axios";
@@ -18,9 +18,40 @@ import MyButton from "../components/MyButton";
 function Account(props) {
   const [iden, setIden] = useState(-1);
   let token = window.sessionStorage.getItem("token");
-
+  const currentUsername = window.sessionStorage.getItem("username");
+  const [username, setUsername] = useState(currentUsername);
   const [typeEvents, setTypeEvents] = useState([]);
   const [eventsByType, setEventsByType] = useState([]);
+  const [arr, setArr] = useState([]);
+
+  const idUser = window.sessionStorage.getItem("id");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/event-by-type", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        let niz = [];
+        niz.push(["Type name", "Number of events"]);
+
+        for (let i = 0; i < res.data.podaci.length; i++) {
+          niz.push([
+            res.data.podaci[i].name,
+            res.data.podaci[i].numberOfEvents,
+          ]);
+        }
+        setArr(niz);
+        niz.map((item) => {
+          console.log(item);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,6 +188,32 @@ function Account(props) {
       });
   };
 
+  const updateUsername = () => {
+    axios
+      .put(
+        `http://localhost:8000/api/user/${idUser}`,
+        { username },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        window.sessionStorage.setItem("username", username);
+        alert("Successfully updated username");
+        // setEventsByType(res.data.data);
+        //console.log("sortirani po: ", res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleInputChange = (e) => {
+    setUsername(e.target.value);
+  };
+
   return (
     <div>
       <Row>
@@ -175,8 +232,12 @@ function Account(props) {
         </Col>
         <Col>
           <Row>
-            email:
-            <input disabled={true} placeholder={props.email} />
+            username:
+            <input
+              placeholder={username}
+              value={username}
+              onChange={handleInputChange}
+            />
           </Row>
           <br />
           <Row>
@@ -184,7 +245,29 @@ function Account(props) {
             <input disabled={true} placeholder={phoneNumber} />
           </Row>
         </Col>
-        <Col></Col>
+        <Col>
+          <input
+            type="button"
+            className="font"
+            style={{ fontSize: 20, width: 150 }}
+            value={"Save"}
+            onClick={updateUsername}
+          ></input>
+        </Col>
+        <Col>
+          <Table className={"table"} striped>
+            <tbody>
+              {arr.map((item) => {
+                return (
+                  <tr>
+                    <td>{item[0]}</td>
+                    <td>{item[1]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Col>
       </Row>
       <br />
       <Row>
