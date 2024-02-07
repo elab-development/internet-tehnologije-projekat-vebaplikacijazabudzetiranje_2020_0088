@@ -31,6 +31,9 @@ Route::get('/send-email',[UserController::class,'sendEmail']);
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
 
+
+    Route::get('/event-by-user',[EventController::class,'eventsByUser']);
+    Route::get('/event-by-type',[UserController::class,'eventsByType']);
     Route::resource('event-participants', EventParticipantController::class);
     Route::get('/event-by-type/{id}',[EventController::class,'getEventsByType']);
     Route::get('/random-user',[EventController::class,'randomUser']);

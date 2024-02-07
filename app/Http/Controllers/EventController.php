@@ -130,15 +130,15 @@ class EventController extends Controller
     public function destroy(Request $request, Event $event)
     {
         //
+        try{
         $user = $request->user();
-        
-        if($user->role != 'admin'){
-            return response()->json([
-                'message' => 'Nemate pristup ovoj ruti',
-            ]);
-        }
+
+        $event->participants()->delete();
         $event->delete();
         return response()->json(['Event is deleted successfully.']);
+        }catch(\Exception$e){
+            return response()->json(['Error'=>$e->getMessage()],500);
+        }
 
     }
 
@@ -242,5 +242,28 @@ class EventController extends Controller
             'message' => 'Successfully returned random user',
         ]);
 
+    }
+
+    public function eventsByUser(Request $request)
+    {
+
+        $user = $request->user();
+        if($user->role == 'admin'){  
+        $events = DB::table('events as e')
+            ->select(DB::raw('u.username, COUNT(*) as numberOfEvents'))
+            ->join('users as u', 'e.user_id', '=', 'u.id')
+            ->groupBy('u.username')
+            ->get();
+
+        return response()->json([
+            'poruka' => 'Uspesno ucitani eventovi',
+            'podaci' => $events,
+        ], 200);
+    }
+        else{
+            return response()->json([
+                'message' => 'Nemate pristup ovoj ruti',
+            ]);
+        }
     }
 }

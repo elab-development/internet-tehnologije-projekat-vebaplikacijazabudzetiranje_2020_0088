@@ -8,6 +8,8 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendGridTestEmail;
+use Illuminate\Support\Facades\DB;
+use App\Models\Event;
 
 class UserController extends Controller
 {
@@ -104,5 +106,21 @@ class UserController extends Controller
         Mail::to('arsic2001sofija@gmail.com')->send(new SendGridTestEmail());
 
         return "Email sent successfully!";
+    }
+
+    public function eventsByType(Request $request)
+    {
+    $user = $request->user();
+
+    $events = Event::select('type_events.name', DB::raw('COUNT(*) as numberOfEvents'))
+        ->join('type_events', 'events.type_id', '=', 'type_events.id')
+        ->where('events.user_id', $user->id) 
+        ->groupBy('type_events.name')
+        ->get();
+
+    return response()->json([
+        'poruka' => 'Uspesno ucitani eventovi',
+        'podaci' => $events,
+    ], 200);
     }
 }
