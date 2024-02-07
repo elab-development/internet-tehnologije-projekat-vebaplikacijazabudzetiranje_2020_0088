@@ -37,12 +37,10 @@ function App(props) {
 
           setLoggedIn(true);
           window.location.href = "/home";
-          //setLoginError(null);
         }
       })
       .catch((error) => {
         console.error("Došlo je do greške!", error);
-        //setLoginError("Pogrešan email ili lozinka.");
         alert("Pogresni podaci za logovanje");
         window.location.href = "/login";
       });
@@ -78,14 +76,25 @@ function App(props) {
 
         setLoggedIn(true);
         window.location.href = "/home";
+        sendWelcomeEmail();
       })
       .catch((error) => {
         console.error("Došlo je do greške!", error);
-        //setLoginError("Pogrešan email ili lozinka.");
         alert("Pogresni podaci za logovanje");
         window.location.href = "/register";
       });
   };
+  function sendWelcomeEmail() {
+    axios
+      .get("http://localhost:8000/api/send-email")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error("Greska prilikom slanja maila", error);
+        window.location.href = "/register";
+      });
+  }
 
   return (
     <div className="App">
