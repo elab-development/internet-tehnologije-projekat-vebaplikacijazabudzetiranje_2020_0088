@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../App.css";
 import SearchBar from "../components/SearchBar";
 import { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import fetch from "cross-fetch";
 import profile from "./id_9470706.png";
 import axios from "axios";
@@ -24,6 +24,34 @@ function AccountAdmin(props) {
   const [typeEvents, setTypeEvents] = useState([]);
   const [eventsByType, setEventsByType] = useState(null);
   const [iden, setIden] = useState(-1);
+  const [arr, setArr] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/event-by-user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        let niz = [];
+        niz.push(["Username", "Number of events"]);
+
+        for (let i = 0; i < res.data.podaci.length; i++) {
+          niz.push([
+            res.data.podaci[i].username,
+            res.data.podaci[i].numberOfEvents,
+          ]);
+        }
+        setArr(niz);
+        niz.map((item) => {
+          console.log(item);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -195,8 +223,11 @@ function AccountAdmin(props) {
         </Col>
         <Col>
           <Row>
-            email:
-            <input disabled={true} placeholder={props.email} />
+            username:
+            <input
+              disabled={true}
+              placeholder={window.sessionStorage.getItem("username")}
+            />
           </Row>
           <br />
           <Row>
@@ -204,7 +235,20 @@ function AccountAdmin(props) {
             <input disabled={true} placeholder={phoneNumber} />
           </Row>
         </Col>
-        <Col></Col>
+        <Col>
+          <Table className={"table"} striped>
+            <tbody>
+              {arr.map((item) => {
+                return (
+                  <tr>
+                    <td>{item[0]}</td>
+                    <td>{item[1]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Col>
       </Row>
       <br />
       <SearchBar onSearch={handleSearch} onSort={handleSort} />
