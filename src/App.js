@@ -12,7 +12,6 @@ import Register from "./components/Register";
 import Contact from "./pages/Contact";
 import Account from "./pages/Account";
 import axios from "axios";
-import axiosInstanca from "./components/axiosInstance";
 import AccountAdmin from "./pages/AccountAdmin";
 
 function App(props) {

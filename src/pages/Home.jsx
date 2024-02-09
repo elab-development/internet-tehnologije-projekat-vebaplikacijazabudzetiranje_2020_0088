@@ -5,7 +5,6 @@ import { Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { Chart } from "react-google-charts";
 import { CSVLink } from "react-csv";
-import MyButton from "../components/MyButton";
 const Home = () => {
   let token = window.sessionStorage.getItem("token");
   const role = window.sessionStorage.getItem("role");
@@ -83,11 +82,9 @@ const Home = () => {
       const responseParticipant = await axios.get(
         `http://localhost:8000/api/user?email= ${data} `
       );
-
-      // console.log(responseParticipant.data);
       const user_id = responseParticipant.data.data.id;
 
-      const responseStoreParticipant = await axios.post(
+      const response = await axios.post(
         "http://localhost:8000/api/event-participants",
 
         { user_id, event_id, debt },
@@ -97,7 +94,6 @@ const Home = () => {
           },
         }
       );
-      // console.log(responseParticipant.data.data.id);
     }
 
     async function sendGetRequestForArray() {
@@ -121,8 +117,6 @@ const Home = () => {
 
     setEvents(parsedEvents);
   };
-
-  // Handler funkcija za označavanje/odznačavanje reda
   const toggleRow = (rowId) => {
     if (selectedRows.includes(rowId)) {
       setSelectedRows(selectedRows.filter((id) => id !== rowId));
@@ -131,81 +125,31 @@ const Home = () => {
     }
   };
 
-  // async function sendGetRequest(data) {
-  //   axios
-  //     .delete(`http://localhost:8000/api/events/ ${data}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //     });
-  // }
-  // async function sendGetRequest(id) {
-  //   try {
-  //     const res = await axios.delete(`http://localhost:8000/api/events/${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     const upArr = events.filter((item) => item.event_id !== id);
-  //     setEvents(upArr);
-
-  //     let parsedEvents = JSON.parse(events);
-
-  //     if (parsedEvents) {
-  //       window.sessionStorage.setItem("events", JSON.stringify(parsedEvents));
-  //     } else {
-  //       window.sessionStorage.setItem("events", JSON.stringify(parsedEvents));
-  //     }
-
-  //     setEvents(parsedEvents);
-
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.error("Greška prilikom brisanja:", error);
-  //   }
-  // }
-
   async function sendGetRequest(id) {
     try {
-      // Send DELETE request to delete the event with the specified id
       const res = await axios.delete(`http://localhost:8000/api/events/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      // Retrieve events from sessionStorage
       const eventsString = window.sessionStorage.getItem("events");
       console.log("eventsString:", eventsString);
-
-      // Parse events string to JSON, handle the case where eventsString is null or undefined
       const parsedEvents = eventsString ? JSON.parse(eventsString) : [];
-
-      // Filter out the deleted event from the parsed events
       const updatedEvents = parsedEvents.filter((item) => item.event_id !== id);
-
-      // Update the events state with the filtered events
       setEvents(updatedEvents);
-
-      // Store the updated events back to sessionStorage
       window.sessionStorage.setItem("events", JSON.stringify(updatedEvents));
-
       console.log(res);
     } catch (error) {
       console.error("Greška prilikom brisanja:", error);
     }
   }
-
   async function sendGetRequestForArray() {
     for (const data of selectedRows) {
       console.log(data);
       await sendGetRequest(data);
     }
   }
-
   const deleteSelectedRows = () => {
     sendGetRequestForArray();
 

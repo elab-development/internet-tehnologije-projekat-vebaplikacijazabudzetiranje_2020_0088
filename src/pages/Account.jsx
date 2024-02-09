@@ -13,9 +13,8 @@ import uncat from "../pages/uncategorized.jpeg";
 import lugg from "../pages/lugg.jpeg";
 import entertainment from "../pages/entertainment.jpeg";
 import CardEvent from "../components/CardEvent";
-import MyButton from "../components/MyButton";
 
-function Account(props) {
+function Account() {
   const [iden, setIden] = useState(-1);
   let token = window.sessionStorage.getItem("token");
   const currentUsername = window.sessionStorage.getItem("username");
@@ -181,7 +180,6 @@ function Account(props) {
       )
       .then((res) => {
         setEventsByType(res.data.data);
-        //console.log("sortirani po: ", res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -202,8 +200,6 @@ function Account(props) {
       .then((res) => {
         window.sessionStorage.setItem("username", username);
         alert("Successfully updated username");
-        // setEventsByType(res.data.data);
-        //console.log("sortirani po: ", res.data.data);
       })
       .catch((err) => {
         console.log(err);

@@ -14,9 +14,6 @@ import lugg from "../pages/lugg.jpeg";
 import entertainment from "../pages/entertainment.jpeg";
 
 function AccountAdmin(props) {
-  //const [searchResults, setSearchResults] = useState([]);
-  // const [saveEvents, setSaveEvents] = useState([]);
-
   let token = window.sessionStorage.getItem("token");
   const zahteviPoStranici = 3;
   const [trenutnaStranica, setTrenutnaStranica] = useState(1);
@@ -184,27 +181,12 @@ function AccountAdmin(props) {
       )
       .then((res) => {
         setEventsByType(res.data.data);
-        //console.log("sortirani po: ", res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  // const handleSearch = (query) => {
-  //   const fetchData = async () => {
-  //     const response = await axios.get(
-  //       "http://localhost:8000/api/event-paginate?per_page=3",
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data);
-  //   };
-  //   fetchData();
-  // };
   return (
     <div>
       <Row>

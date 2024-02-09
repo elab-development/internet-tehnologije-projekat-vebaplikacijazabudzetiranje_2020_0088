@@ -8,7 +8,7 @@ import { NavbarBrand } from "react-bootstrap";
 import "../App.css";
 import useLoggedIn from "../hooks/useLoggedIn";
 
-function NavBar({ username, logout, onButtonSearch }) {
+function NavBar({ username, logout }) {
   const isLogged = useLoggedIn();
 
   return (
