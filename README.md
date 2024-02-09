@@ -35,7 +35,7 @@ Zatim je potrebno pokrenuti redom sledeće komande:
 
 - `git clone https://github.com/elab-development/internet-tehnologije-projekat-vebaplikacijazabudzetiranje_2020_0088.git
 - `cd internet-tehnologije-projekat-vebaplikacijazabudzetiranje_2020_0088`
-- 
+
 **Backend**
 
 - `copy .env.example .env`
